@@ -4,8 +4,8 @@ var LIKES_MIN = 15;
 var LIKES_MAX = 200;
 
 var URLS = [];
-for (var i = 1; i <= 25; i++) {
-  URLS.push('photos/' + i + '.jpg');
+for (var k = 1; k <= 25; k++) {
+  URLS.push('photos/' + k + '.jpg');
 }
 
 var COMMENTS = [
