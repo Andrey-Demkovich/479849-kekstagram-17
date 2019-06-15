@@ -36,7 +36,30 @@ var generateRandomInteger = function (min, max) {
   return min + Math.floor((max + 1 - min) * Math.random());
 };
 
+var newArray = [];
+var asdb = function (array, property, length) {
+  var arrayClone = array.slice();
+  length = length || array.length;
+  for (var i = 0; i < length; i++) {
+    if (!newArray[i]) {
+      newArray[i] = {};
+    };
+    newArray[i][property] = arrayClone
+      .splice(generateRandomInteger(0, arrayClone.length - 1), 1)
+      .toString();
+  }
+
+  return newArray;
+};
+
 var generatePosts = function (urls, comments, comentators) {
+  var arr = asdb(urls, 'url');
+  arr = asdb(urls, 'asdf');
+  for (var i = 0; i < urls.length; i++) {
+    arr[i].likes = generateRandomInteger(LIKES_MIN, LIKES_MAX);
+  }
+  console.log(arr);
+
   var posts = [];
   var urlsClone = urls.slice();
   for (var i = 0; i < urls.length; i++) {
@@ -65,6 +88,8 @@ var generatePosts = function (urls, comments, comentators) {
       posts[i].comments[j].name = commentator[0].name;
     }
   }
+
+  console.log(posts);
 
   return posts;
 };
