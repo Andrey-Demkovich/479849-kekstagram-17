@@ -107,3 +107,35 @@ var insertFragment = function (posts) {
 };
 
 insertFragment(generatePostsAlt(URLS));
+
+// Загрузка изображения и показ формы редактирования
+var ESK_KEYCODE = 27;
+
+var uploadFileElement = document.querySelector('#upload-file');
+var imgUploadOverlayElement = document.querySelector('.img-upload__overlay');
+var uploadCancelElement = imgUploadOverlayElement.querySelector(
+    '#upload-cancel'
+);
+
+var onImgUploadEscPress = function (evt) {
+  if (evt.keyCode === ESK_KEYCODE) {
+    imgUploadOverlayElement.classList.add('hidden');
+  }
+};
+
+var openImgUpload = function () {
+  imgUploadOverlayElement.classList.remove('hidden');
+  document.addEventListener('keydown', onImgUploadEscPress);
+  uploadCancelElement.addEventListener('click', function () {
+    closeImgUpload();
+  });
+};
+
+var closeImgUpload = function () {
+  imgUploadOverlayElement.classList.add('hidden');
+  document.removeEventListener('keydown', onImgUploadEscPress);
+};
+
+uploadFileElement.addEventListener('change', function () {
+  openImgUpload();
+});
