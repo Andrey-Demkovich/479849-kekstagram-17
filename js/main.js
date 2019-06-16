@@ -95,7 +95,7 @@ var generatePostsAlt = function (urls) {
     return post;
   });
 
-  console.log(posts);
+  // console.log(posts);
 
   return posts;
 };
