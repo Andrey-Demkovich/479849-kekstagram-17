@@ -49,7 +49,7 @@ var generateComment = function () {
 };
 
 // генерируем много комментариев
-var gemerateComments = function (commentsTotal) {
+var generateComments = function (commentsTotal) {
   var comments = [];
   for (var t = 0; t < commentsTotal; t++) {
     comments.push(generateComment());
@@ -61,7 +61,7 @@ var gemerateComments = function (commentsTotal) {
 // генерируем пост
 var generatePost = function (url) {
   var commentsTotal = generateRandomInteger(1, 10);
-  var comments = gemerateComments(commentsTotal);
+  var comments = generateComments(commentsTotal);
   var likes = generateRandomInteger(LIKES_MIN, LIKES_MAX);
   var post = {
     url: url,
@@ -87,16 +87,16 @@ var generatePostsAlt = function (urls) {
   // }
 
   var urlsClone = urls.slice();
-  var posts = urlsClone.map(function (item, i, arr) {
-    var url = arr.splice(generateRandomInteger(0, arr.length - 1), 1)[0];
+  var posts = urls.map(function () {
+    var url = urlsClone.splice(
+        generateRandomInteger(0, urlsClone.length - 1),
+        1
+    )[0];
 
-    var post = generatePost(url);
-
-    return post;
+    return generatePost(url);
   });
 
   // console.log(posts);
-
   return posts;
 };
 
