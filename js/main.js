@@ -1,5 +1,4 @@
 'use strict';
-
 var LIKES_MIN = 15;
 var LIKES_MAX = 200;
 
@@ -36,58 +35,65 @@ var generateRandomInteger = function (min, max) {
   return min + Math.floor((max + 1 - min) * Math.random());
 };
 
-var newArray = [];
-var asdb = function (array, property, length) {
-  var arrayClone = array.slice();
-  length = length || array.length;
-  for (var i = 0; i < length; i++) {
-    if (!newArray[i]) {
-      newArray[i] = {};
-    };
-    newArray[i][property] = arrayClone
-      .splice(generateRandomInteger(0, arrayClone.length - 1), 1)
-      .toString();
-  }
+// генерируем комментарий
+var generateComment = function () {
+  var commentator =
+    COMMENTATORS[generateRandomInteger(0, COMMENTATORS.length - 1)];
+  var message = COMMENTS[generateRandomInteger(0, COMMENTS.length - 1)];
 
-  return newArray;
+  return {
+    avatar: commentator.avatar,
+    name: commentator.name,
+    message: message
+  };
 };
 
-var generatePosts = function (urls, comments, comentators) {
-  var arr = asdb(urls, 'url');
-  arr = asdb(urls, 'asdf');
-  for (var i = 0; i < urls.length; i++) {
-    arr[i].likes = generateRandomInteger(LIKES_MIN, LIKES_MAX);
+// генерируем много комментариев
+var gemerateComments = function (commentsTotal) {
+  var comments = [];
+  for (var t = 0; t < commentsTotal; t++) {
+    comments.push(generateComment());
   }
-  console.log(arr);
 
-  var posts = [];
+  return comments;
+};
+
+// генерируем пост
+var generatePost = function (url) {
+  var commentsTotal = generateRandomInteger(1, 10);
+  var comments = gemerateComments(commentsTotal);
+  var likes = generateRandomInteger(LIKES_MIN, LIKES_MAX);
+  var post = {
+    url: url,
+    comments: comments,
+    likes: likes
+  };
+
+  return post;
+};
+
+// все вместе
+var generatePostsAlt = function (urls) {
+  // var posts = [];
+  // var urlsClone = urls.slice();
+  // for (var j = 0; j < urls.length; j++) {
+  //   var url = urlsClone.splice(
+  //       generateRandomInteger(0, urlsClone.length - 1),
+  //       1
+  //   )[0];
+  //
+  //   var post = generatePost(url);
+  //   posts.push(post);
+  // }
+
   var urlsClone = urls.slice();
-  for (var i = 0; i < urls.length; i++) {
-    posts[i] = {};
+  var posts = urlsClone.map(function (item, i, arr) {
+    var url = arr.splice(generateRandomInteger(0, arr.length - 1), 1)[0];
 
-    posts[i].url = urlsClone
-      .splice(generateRandomInteger(0, urlsClone.length - 1), 1)
-      .toString();
+    var post = generatePost(url);
 
-    posts[i].likes = generateRandomInteger(LIKES_MIN, LIKES_MAX);
-
-    posts[i].comments = [];
-    var commentorsClone = comentators.slice();
-    var commentsClone = comments.slice();
-    for (var j = 0; j < generateRandomInteger(2, 5); j++) {
-      var commentator = commentorsClone.splice(
-          generateRandomInteger(0, commentorsClone.length - 1),
-          1
-      );
-
-      posts[i].comments[j] = {};
-      posts[i].comments[j].avatar = commentator[0].avatar;
-      posts[i].comments[j].message = commentsClone
-        .splice(generateRandomInteger(0, commentsClone.length - 1), 1)
-        .toString();
-      posts[i].comments[j].name = commentator[0].name;
-    }
-  }
+    return post;
+  });
 
   console.log(posts);
 
@@ -113,4 +119,4 @@ var insertFragment = function (posts) {
   picturesContainerElement.appendChild(fragment);
 };
 
-insertFragment(generatePosts(URLS, COMMENTS, COMMENTATORS));
+insertFragment(generatePostsAlt(URLS));
