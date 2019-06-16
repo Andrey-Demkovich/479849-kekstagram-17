@@ -74,18 +74,6 @@ var generatePost = function (url) {
 
 // все вместе
 var generatePostsAlt = function (urls) {
-  // var posts = [];
-  // var urlsClone = urls.slice();
-  // for (var j = 0; j < urls.length; j++) {
-  //   var url = urlsClone.splice(
-  //       generateRandomInteger(0, urlsClone.length - 1),
-  //       1
-  //   )[0];
-  //
-  //   var post = generatePost(url);
-  //   posts.push(post);
-  // }
-
   var urlsClone = urls.slice();
   var posts = urls.map(function () {
     var url = urlsClone.splice(
@@ -96,7 +84,6 @@ var generatePostsAlt = function (urls) {
     return generatePost(url);
   });
 
-  // console.log(posts);
   return posts;
 };
 
