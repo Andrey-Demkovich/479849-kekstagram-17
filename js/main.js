@@ -239,7 +239,7 @@ var scaleCntrolValue = imgUploadOverlayElement.querySelector(
 );
 
 var outZoom = function () {
-  var scaleSmaller = parseInt(scaleCntrolValue.value) - STEP;
+  var scaleSmaller = parseInt(scaleCntrolValue.value, 10) - STEP;
   if (scaleSmaller <= MIN_SCALE) {
     scaleSmaller = MIN_SCALE;
     scaleCntrolValue.value = MIN_SCALE + '%';
@@ -252,7 +252,7 @@ var outZoom = function () {
 };
 
 var inZoom = function () {
-  var scaleBigger = parseInt(scaleCntrolValue.value) + STEP;
+  var scaleBigger = parseInt(scaleCntrolValue.value, 10) + STEP;
   if (scaleBigger >= MAX_SCALE) {
     scaleBigger = MAX_SCALE;
     scaleCntrolValue.value = MAX_SCALE + '%';
