@@ -139,3 +139,23 @@ var closeImgUpload = function () {
 uploadFileElement.addEventListener('change', function () {
   openImgUpload();
 });
+
+// 2.2. Наложение эффекта на изображение:
+//  2.2.1. Смена эффекта
+var effectsRadioElements = document.querySelectorAll('.effects__radio');
+var imgUploadPreviewElement = document.querySelector('.img-upload__preview');
+
+var changeEffectsPreview = function (evt) {
+  imgUploadPreviewElement.firstElementChild.className = '';
+  if (evt.target.value !== 'none') {
+    imgUploadPreviewElement.firstElementChild.classList.add(
+        'effects__preview--' + evt.target.value
+    );
+  }
+};
+
+effectsRadioElements.forEach(function (item) {
+  item.addEventListener('change', function (evt) {
+    changeEffectsPreview(evt);
+  });
+});
