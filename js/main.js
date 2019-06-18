@@ -117,6 +117,16 @@ var uploadCancelElement = imgUploadOverlayElement.querySelector(
     '#upload-cancel'
 );
 var effectLevel = imgUploadOverlayElement.querySelector('.effect-level');
+var effectsRadioElements = imgUploadOverlayElement.querySelectorAll(
+    '.effects__radio'
+);
+var imgUploadPreviewElement = imgUploadOverlayElement.querySelector(
+    '.img-upload__preview'
+);
+var imageUploadPreviewElement = imgUploadPreviewElement.firstElementChild;
+var scaleCntrolValue = imgUploadOverlayElement.querySelector(
+    '.scale__control--value'
+);
 
 var onImgUploadEscPress = function (evt) {
   if (evt.keyCode === ESK_KEYCODE) {
@@ -124,19 +134,28 @@ var onImgUploadEscPress = function (evt) {
   }
 };
 
+var closeImgUpload = function () {
+  imgUploadOverlayElement.classList.add('hidden');
+
+  document.removeEventListener('keydown', onImgUploadEscPress);
+
+  imageUploadPreviewElement.className = '';
+  imageUploadPreviewElement.style.filter = '';
+  imageUploadPreviewElement.style.transform = 'scale(1)';
+};
+
 var openImgUpload = function () {
   imgUploadOverlayElement.classList.remove('hidden');
+
+  effectsRadioElements[0].checked = true;
   effectLevel.classList.add('hidden');
   scaleCntrolValue.value = '100%';
+
   document.addEventListener('keydown', onImgUploadEscPress);
+
   uploadCancelElement.addEventListener('click', function () {
     closeImgUpload();
   });
-};
-
-var closeImgUpload = function () {
-  imgUploadOverlayElement.classList.add('hidden');
-  document.removeEventListener('keydown', onImgUploadEscPress);
 };
 
 uploadFileElement.addEventListener('change', function () {
@@ -145,16 +164,8 @@ uploadFileElement.addEventListener('change', function () {
 
 // 2.2. Наложение эффекта на изображение:
 //  2.2.1. Смена эффекта
-var effectsRadioElements = imgUploadOverlayElement.querySelectorAll(
-    '.effects__radio'
-);
-var imgUploadPreviewElement = imgUploadOverlayElement.querySelector(
-    '.img-upload__preview'
-);
-var imageUploadPreviewElement = imgUploadPreviewElement.firstElementChild;
-
 var changeEffectsPreview = function (evt) {
-  imgUploadPreviewElement.firstElementChild.className = '';
+  imageUploadPreviewElement.className = '';
   if (evt.target.value !== 'none') {
     effectLevel.classList.remove('hidden');
     imageUploadPreviewElement.classList.add(
@@ -234,18 +245,14 @@ var scaleControlSmaller = imgUploadOverlayElement.querySelector(
 var scaleControlBigger = imgUploadOverlayElement.querySelector(
     '.scale__control--bigger'
 );
-var scaleCntrolValue = imgUploadOverlayElement.querySelector(
-    '.scale__control--value'
-);
 
 var outZoom = function () {
   var scaleSmaller = parseInt(scaleCntrolValue.value, 10) - STEP;
+
   if (scaleSmaller <= MIN_SCALE) {
     scaleSmaller = MIN_SCALE;
-    scaleCntrolValue.value = MIN_SCALE + '%';
-  } else {
-    scaleCntrolValue.value = scaleSmaller + '%';
   }
+  scaleCntrolValue.value = scaleSmaller + '%';
 
   imageUploadPreviewElement.style.transform =
     'scale(' + scaleSmaller / 100 + ')';
@@ -253,12 +260,11 @@ var outZoom = function () {
 
 var inZoom = function () {
   var scaleBigger = parseInt(scaleCntrolValue.value, 10) + STEP;
+
   if (scaleBigger >= MAX_SCALE) {
     scaleBigger = MAX_SCALE;
-    scaleCntrolValue.value = MAX_SCALE + '%';
-  } else {
-    scaleCntrolValue.value = scaleBigger + '%';
   }
+  scaleCntrolValue.value = scaleBigger + '%';
 
   imageUploadPreviewElement.style.transform =
     'scale(' + scaleBigger / 100 + ')';
