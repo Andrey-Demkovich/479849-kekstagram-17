@@ -257,30 +257,21 @@ var changeIntensityEffect = function () {
 effectLevelPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
+  var startCoordsX = evt.clientX;
 
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
 
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
+    var shiftX = startCoordsX - moveEvt.clientX;
+    startCoordsX = moveEvt.clientX;
 
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
+    var pinElementLeft = effectLevelPinElement.offsetLeft - shiftX;
 
-    var pinElementLeft = effectLevelPinElement.offsetLeft - shift.x;
     var lineElementLeft = effectLevelLineElement.getBoundingClientRect().left;
     var lineElementRight = effectLevelLineElement.getBoundingClientRect().right;
-    if (startCoords.x <= lineElementLeft) {
+    if (startCoordsX <= lineElementLeft) {
       pinElementLeft = 0;
-    } else if (startCoords.x >= lineElementRight) {
+    } else if (startCoordsX >= lineElementRight) {
       pinElementLeft = effectLevelLineElement.clientWidth;
     }
 
