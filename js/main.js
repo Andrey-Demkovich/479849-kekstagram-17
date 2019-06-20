@@ -256,14 +256,11 @@ var changeIntensityEffect = function () {
 // Перетаскивание слайдера эффектов
 effectLevelPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
-  console.log(effectLevelLineElement.getBoundingClientRect().left);
-  console.log(effectLevelLineElement.offsetLeft);
 
   var startCoords = {
     x: evt.clientX,
     y: evt.clientY
   };
-  console.log(startCoords);
 
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
@@ -277,7 +274,6 @@ effectLevelPinElement.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
-    console.log(startCoords);
 
     var pinElementLeft = effectLevelPinElement.offsetLeft - shift.x;
     var lineElementLeft = effectLevelLineElement.getBoundingClientRect().left;
@@ -288,11 +284,7 @@ effectLevelPinElement.addEventListener('mousedown', function (evt) {
       pinElementLeft = effectLevelLineElement.clientWidth;
     }
 
-    console.log(pinElementLeft);
-    console.log(effectLevelPinElement.offsetLeft);
-
     effectLevelPinElement.style.left = pinElementLeft + 'px';
-    // changeIntensityEffect();
   };
 
   var onMouseUp = function (upEvt) {
