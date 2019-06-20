@@ -274,8 +274,8 @@ effectLevelPinElement.addEventListener('mousedown', function (evt) {
     };
 
     startCoords = {
-      x: moveEvt.x,
-      y: moveEvt.y
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
     };
     console.log(startCoords);
 
