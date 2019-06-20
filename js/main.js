@@ -204,6 +204,7 @@ var changeEffectsPreview = function (evt) {
     imageUploadPreviewElement.style.filter = 'brightness(3)';
   }
 
+  // При смене эффекта устаналиваем ползунок слайдера на 100%
   effectLevelPinElement.style.left = '100%';
   effectLevelDepthElement.style.width = '100%';
 };
@@ -252,10 +253,6 @@ var changeIntensityEffect = function () {
   }
 };
 
-// effectLevelPinElement.addEventListener('mouseup', function () {
-//   changeIntensityEffect();
-// });
-
 // Перетаскивание слайдера эффектов
 effectLevelPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -294,6 +291,25 @@ effectLevelPinElement.addEventListener('mousedown', function (evt) {
 
   document.addEventListener('mouseup', onMouseUp);
 });
+
+effectLevel.addEventListener('click', function (clickEvt) {
+  var coordsX = clickEvt.clientX;
+  var lineElementLeft = effectLevelLineElement.getBoundingClientRect().left;
+  var lineElementRight = effectLevelLineElement.getBoundingClientRect().right;
+
+  var elementLeft = coordsX - lineElementLeft;
+
+  if (coordsX <= lineElementLeft) {
+    elementLeft = 0;
+  } else if (coordsX >= lineElementRight) {
+    elementLeft = effectLevelLineElement.clientWidth;
+  }
+
+  effectLevelPinElement.style.left = elementLeft + 'px';
+  effectLevelDepthElement.style.width = elementLeft + 'px';
+});
+
+effectLevel.addEventListener('click', changeIntensityEffect);
 
 // 2.1. Масштаб:
 var MIN_SCALE = 0;
