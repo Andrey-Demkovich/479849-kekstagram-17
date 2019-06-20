@@ -157,7 +157,7 @@ var openImgUpload = function () {
   effectLevel.classList.add('hidden');
   effectLevelValueElement.value = 100;
   effectLevelPinElement.style.left = '100%';
-  effectLevelDepth.style.width = '100%';
+  effectLevelDepthElement.style.width = '100%';
 
   document.addEventListener('keydown', onImgUploadEscPress);
   //   2.4. Комментарий:
@@ -203,6 +203,9 @@ var changeEffectsPreview = function (evt) {
   } else if (evt.target.value === 'heat') {
     imageUploadPreviewElement.style.filter = 'brightness(3)';
   }
+
+  effectLevelPinElement.style.left = '100%';
+  effectLevelDepthElement.style.width = '100%';
 };
 
 effectsRadioElements.forEach(function (item) {
@@ -215,7 +218,7 @@ effectsRadioElements.forEach(function (item) {
 var effectLevelValueElement = effectLevel.querySelector('.effect-level__value');
 var effectLevelLineElement = effectLevel.querySelector('.effect-level__line');
 var effectLevelPinElement = effectLevel.querySelector('.effect-level__pin');
-var effectLevelDepth = effectLevel.querySelector('.effect-level__depth');
+var effectLevelDepthElement = effectLevel.querySelector('.effect-level__depth');
 
 var changeIntensityEffect = function () {
   effectLevelValueElement.value =
@@ -276,6 +279,7 @@ effectLevelPinElement.addEventListener('mousedown', function (evt) {
     }
 
     effectLevelPinElement.style.left = pinElementLeft + 'px';
+    effectLevelDepthElement.style.width = pinElementLeft + 'px';
   };
 
   var onMouseUp = function (upEvt) {
