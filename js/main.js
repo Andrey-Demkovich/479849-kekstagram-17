@@ -151,8 +151,13 @@ var openImgUpload = function () {
   imgUploadOverlayElement.classList.remove('hidden');
 
   effectsRadioElements[0].checked = true;
-  effectLevel.classList.add('hidden');
   scaleCntrolValue.value = '100%';
+
+  // Скрываем слайдер эффектов и устанавливаем на 100%
+  effectLevel.classList.add('hidden');
+  effectLevelValueElement.value = 100;
+  effectLevelPinElement.style.left = '100%';
+  effectLevelDepth.style.width = '100%';
 
   document.addEventListener('keydown', onImgUploadEscPress);
   //   2.4. Комментарий:
@@ -210,40 +215,97 @@ effectsRadioElements.forEach(function (item) {
 var effectLevelValueElement = effectLevel.querySelector('.effect-level__value');
 var effectLevelLineElement = effectLevel.querySelector('.effect-level__line');
 var effectLevelPinElement = effectLevel.querySelector('.effect-level__pin');
+var effectLevelDepth = effectLevel.querySelector('.effect-level__depth');
 
 var changeIntensityEffect = function () {
-  effectLevelValueElement.value = (
-    effectLevelPinElement.offsetLeft / effectLevelLineElement.clientWidth
-  ).toFixed(2);
+  effectLevelValueElement.value =
+    (
+      effectLevelPinElement.offsetLeft / effectLevelLineElement.clientWidth
+    ).toFixed(2) * 100;
 
   if (imageUploadPreviewElement.classList[0] === 'effects__preview--chrome') {
     imageUploadPreviewElement.style.filter =
-      'grayscale(' + effectLevelValueElement.value + ')';
+      'grayscale(' + effectLevelValueElement.value / 100 + ')';
   } else if (
     imageUploadPreviewElement.classList[0] === 'effects__preview--sepia'
   ) {
     imageUploadPreviewElement.style.filter =
-      'sepia(' + effectLevelValueElement.value + ')';
+      'sepia(' + effectLevelValueElement.value / 100 + ')';
   } else if (
     imageUploadPreviewElement.classList[0] === 'effects__preview--marvin'
   ) {
     imageUploadPreviewElement.style.filter =
-      'invert(' + effectLevelValueElement.value * 100 + '%)';
+      'invert(' + effectLevelValueElement.value + '%)';
   } else if (
     imageUploadPreviewElement.classList[0] === 'effects__preview--phobos'
   ) {
     imageUploadPreviewElement.style.filter =
-      'blur(' + effectLevelValueElement.value * 3 + 'px)';
+      'blur(' + (effectLevelValueElement.value / 100) * 3 + 'px)';
   } else if (
     imageUploadPreviewElement.classList[0] === 'effects__preview--heat'
   ) {
     imageUploadPreviewElement.style.filter =
-      'brightness(' + effectLevelValueElement.value * 3 + ')';
+      'brightness(' + (effectLevelValueElement.value / 100) * 3 + ')';
   }
 };
 
-effectLevelPinElement.addEventListener('mouseup', function () {
-  changeIntensityEffect();
+// effectLevelPinElement.addEventListener('mouseup', function () {
+//   changeIntensityEffect();
+// });
+
+// Перетаскивание слайдера эффектов
+effectLevelPinElement.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  console.log(effectLevelLineElement.getBoundingClientRect().left);
+  console.log(effectLevelLineElement.offsetLeft);
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+  console.log(startCoords);
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.x,
+      y: moveEvt.y
+    };
+    console.log(startCoords);
+
+    var pinElementLeft = effectLevelPinElement.offsetLeft - shift.x;
+    var lineElementLeft = effectLevelLineElement.getBoundingClientRect().left;
+    var lineElementRight = effectLevelLineElement.getBoundingClientRect().right;
+    if (startCoords.x <= lineElementLeft) {
+      pinElementLeft = 0;
+    } else if (startCoords.x >= lineElementRight) {
+      pinElementLeft = effectLevelLineElement.clientWidth;
+    }
+
+    console.log(pinElementLeft);
+    console.log(effectLevelPinElement.offsetLeft);
+
+    effectLevelPinElement.style.left = pinElementLeft + 'px';
+    // changeIntensityEffect();
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mousemove', changeIntensityEffect);
+
+  document.addEventListener('mouseup', onMouseUp);
 });
 
 // 2.1. Масштаб:
