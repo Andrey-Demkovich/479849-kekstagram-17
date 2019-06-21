@@ -292,6 +292,7 @@ effectLevelPinElement.addEventListener('mousedown', function (evt) {
   document.addEventListener('mouseup', onMouseUp);
 });
 
+// Изменение положения и интенсивности эффекта по клику на слайдер
 effectLevel.addEventListener('click', function (clickEvt) {
   var coordsX = clickEvt.clientX;
   var lineElementLeft = effectLevelLineElement.getBoundingClientRect().left;
