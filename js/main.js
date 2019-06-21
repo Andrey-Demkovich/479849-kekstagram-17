@@ -151,8 +151,13 @@ var openImgUpload = function () {
   imgUploadOverlayElement.classList.remove('hidden');
 
   effectsRadioElements[0].checked = true;
-  effectLevel.classList.add('hidden');
   scaleCntrolValue.value = '100%';
+
+  // Скрываем слайдер эффектов и устанавливаем на 100%
+  effectLevel.classList.add('hidden');
+  effectLevelValueElement.value = 100;
+  effectLevelPinElement.style.left = '100%';
+  effectLevelDepthElement.style.width = '100%';
 
   document.addEventListener('keydown', onImgUploadEscPress);
   //   2.4. Комментарий:
@@ -198,6 +203,10 @@ var changeEffectsPreview = function (evt) {
   } else if (evt.target.value === 'heat') {
     imageUploadPreviewElement.style.filter = 'brightness(3)';
   }
+
+  // При смене эффекта устаналиваем ползунок слайдера на 100%
+  effectLevelPinElement.style.left = '100%';
+  effectLevelDepthElement.style.width = '100%';
 };
 
 effectsRadioElements.forEach(function (item) {
@@ -210,41 +219,98 @@ effectsRadioElements.forEach(function (item) {
 var effectLevelValueElement = effectLevel.querySelector('.effect-level__value');
 var effectLevelLineElement = effectLevel.querySelector('.effect-level__line');
 var effectLevelPinElement = effectLevel.querySelector('.effect-level__pin');
+var effectLevelDepthElement = effectLevel.querySelector('.effect-level__depth');
 
 var changeIntensityEffect = function () {
-  effectLevelValueElement.value = (
-    effectLevelPinElement.offsetLeft / effectLevelLineElement.clientWidth
-  ).toFixed(2);
+  effectLevelValueElement.value =
+    (
+      effectLevelPinElement.offsetLeft / effectLevelLineElement.clientWidth
+    ).toFixed(2) * 100;
 
   if (imageUploadPreviewElement.classList[0] === 'effects__preview--chrome') {
     imageUploadPreviewElement.style.filter =
-      'grayscale(' + effectLevelValueElement.value + ')';
+      'grayscale(' + effectLevelValueElement.value / 100 + ')';
   } else if (
     imageUploadPreviewElement.classList[0] === 'effects__preview--sepia'
   ) {
     imageUploadPreviewElement.style.filter =
-      'sepia(' + effectLevelValueElement.value + ')';
+      'sepia(' + effectLevelValueElement.value / 100 + ')';
   } else if (
     imageUploadPreviewElement.classList[0] === 'effects__preview--marvin'
   ) {
     imageUploadPreviewElement.style.filter =
-      'invert(' + effectLevelValueElement.value * 100 + '%)';
+      'invert(' + effectLevelValueElement.value + '%)';
   } else if (
     imageUploadPreviewElement.classList[0] === 'effects__preview--phobos'
   ) {
     imageUploadPreviewElement.style.filter =
-      'blur(' + effectLevelValueElement.value * 3 + 'px)';
+      'blur(' + (effectLevelValueElement.value / 100) * 3 + 'px)';
   } else if (
     imageUploadPreviewElement.classList[0] === 'effects__preview--heat'
   ) {
     imageUploadPreviewElement.style.filter =
-      'brightness(' + effectLevelValueElement.value * 3 + ')';
+      'brightness(' + (effectLevelValueElement.value / 100) * 3 + ')';
   }
 };
 
-effectLevelPinElement.addEventListener('mouseup', function () {
-  changeIntensityEffect();
+// Перетаскивание слайдера эффектов
+effectLevelPinElement.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoordsX = evt.clientX;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shiftX = startCoordsX - moveEvt.clientX;
+    startCoordsX = moveEvt.clientX;
+
+    var pinElementLeft = effectLevelPinElement.offsetLeft - shiftX;
+
+    var lineElementLeft = effectLevelLineElement.getBoundingClientRect().left;
+    var lineElementRight = effectLevelLineElement.getBoundingClientRect().right;
+    if (startCoordsX <= lineElementLeft) {
+      pinElementLeft = 0;
+    } else if (startCoordsX >= lineElementRight) {
+      pinElementLeft = effectLevelLineElement.clientWidth;
+    }
+
+    effectLevelPinElement.style.left = pinElementLeft + 'px';
+    effectLevelDepthElement.style.width = pinElementLeft + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mousemove', changeIntensityEffect);
+
+  document.addEventListener('mouseup', onMouseUp);
 });
+
+// Изменение положения и интенсивности эффекта по клику на слайдер
+effectLevel.addEventListener('click', function (clickEvt) {
+  var coordsX = clickEvt.clientX;
+  var lineElementLeft = effectLevelLineElement.getBoundingClientRect().left;
+  var lineElementRight = effectLevelLineElement.getBoundingClientRect().right;
+
+  var elementLeft = coordsX - lineElementLeft;
+
+  if (coordsX <= lineElementLeft) {
+    elementLeft = 0;
+  } else if (coordsX >= lineElementRight) {
+    elementLeft = effectLevelLineElement.clientWidth;
+  }
+
+  effectLevelPinElement.style.left = elementLeft + 'px';
+  effectLevelDepthElement.style.width = elementLeft + 'px';
+});
+
+effectLevel.addEventListener('click', changeIntensityEffect);
 
 // 2.1. Масштаб:
 var MIN_SCALE = 0;
