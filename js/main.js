@@ -127,6 +127,9 @@ var imageUploadPreviewElement = imgUploadPreviewElement.firstElementChild;
 var scaleCntrolValue = imgUploadOverlayElement.querySelector(
     '.scale__control--value'
 );
+var textDescriptionElement = imgUploadOverlayElement.querySelector(
+    '.text__description'
+);
 
 var onImgUploadEscPress = function (evt) {
   if (evt.keyCode === ESK_KEYCODE) {
@@ -152,6 +155,14 @@ var openImgUpload = function () {
   scaleCntrolValue.value = '100%';
 
   document.addEventListener('keydown', onImgUploadEscPress);
+  //   2.4. Комментарий:
+  //   - если фокус находится в поле ввода комментария, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
+  textDescriptionElement.addEventListener('focus', function () {
+    document.removeEventListener('keydown', onImgUploadEscPress);
+  });
+  textDescriptionElement.addEventListener('blur', function () {
+    document.addEventListener('keydown', onImgUploadEscPress);
+  });
 
   uploadCancelElement.addEventListener('click', function () {
     closeImgUpload();
