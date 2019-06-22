@@ -146,7 +146,7 @@ var textDescriptionElement = imgUploadOverlayElement.querySelector(
 
 var onImgUploadEscPress = function (evt) {
   if (evt.keyCode === ESK_KEYCODE) {
-    imgUploadOverlayElement.classList.add('hidden');
+    closeImgUpload();
   }
 };
 
