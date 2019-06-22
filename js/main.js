@@ -260,104 +260,114 @@
   });
 })();
 
+// Файл-модуль effects-intensity.js
 //  2.2.2. Изменение интенсивности эффекта
-var changeIntensityEffect = function () {
-  window.effectLevelValueElement.value =
-    (
-      window.effectLevelPinElement.offsetLeft /
-      window.effectLevelLineElement.clientWidth
-    ).toFixed(2) * 100;
+(function () {
+  window.changeIntensityEffect = function () {
+    window.effectLevelValueElement.value =
+      (
+        window.effectLevelPinElement.offsetLeft /
+        window.effectLevelLineElement.clientWidth
+      ).toFixed(2) * 100;
 
-  if (
-    window.imageUploadPreviewElement.classList[0] === 'effects__preview--chrome'
-  ) {
-    window.imageUploadPreviewElement.style.filter =
-      'grayscale(' + window.effectLevelValueElement.value / 100 + ')';
-  } else if (
-    window.imageUploadPreviewElement.classList[0] === 'effects__preview--sepia'
-  ) {
-    window.imageUploadPreviewElement.style.filter =
-      'sepia(' + window.effectLevelValueElement.value / 100 + ')';
-  } else if (
-    window.imageUploadPreviewElement.classList[0] === 'effects__preview--marvin'
-  ) {
-    window.imageUploadPreviewElement.style.filter =
-      'invert(' + window.effectLevelValueElement.value + '%)';
-  } else if (
-    window.imageUploadPreviewElement.classList[0] === 'effects__preview--phobos'
-  ) {
-    window.imageUploadPreviewElement.style.filter =
-      'blur(' + (window.effectLevelValueElement.value / 100) * 3 + 'px)';
-  } else if (
-    window.imageUploadPreviewElement.classList[0] === 'effects__preview--heat'
-  ) {
-    window.imageUploadPreviewElement.style.filter =
-      'brightness(' + (window.effectLevelValueElement.value / 100) * 3 + ')';
-  }
-};
+    if (
+      window.imageUploadPreviewElement.classList[0] ===
+      'effects__preview--chrome'
+    ) {
+      window.imageUploadPreviewElement.style.filter =
+        'grayscale(' + window.effectLevelValueElement.value / 100 + ')';
+    } else if (
+      window.imageUploadPreviewElement.classList[0] ===
+      'effects__preview--sepia'
+    ) {
+      window.imageUploadPreviewElement.style.filter =
+        'sepia(' + window.effectLevelValueElement.value / 100 + ')';
+    } else if (
+      window.imageUploadPreviewElement.classList[0] ===
+      'effects__preview--marvin'
+    ) {
+      window.imageUploadPreviewElement.style.filter =
+        'invert(' + window.effectLevelValueElement.value + '%)';
+    } else if (
+      window.imageUploadPreviewElement.classList[0] ===
+      'effects__preview--phobos'
+    ) {
+      window.imageUploadPreviewElement.style.filter =
+        'blur(' + (window.effectLevelValueElement.value / 100) * 3 + 'px)';
+    } else if (
+      window.imageUploadPreviewElement.classList[0] === 'effects__preview--heat'
+    ) {
+      window.imageUploadPreviewElement.style.filter =
+        'brightness(' + (window.effectLevelValueElement.value / 100) * 3 + ')';
+    }
+  };
+})();
 
+// Создал файл-модуль slider-drag-drop.js
 // Перетаскивание слайдера эффектов
-window.effectLevelPinElement.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
+(function () {
+  window.effectLevelPinElement.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
 
-  var startCoordsX = evt.clientX;
+    var startCoordsX = evt.clientX;
 
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
 
-    var shiftX = startCoordsX - moveEvt.clientX;
-    startCoordsX = moveEvt.clientX;
+      var shiftX = startCoordsX - moveEvt.clientX;
+      startCoordsX = moveEvt.clientX;
 
-    var pinElementLeft = window.effectLevelPinElement.offsetLeft - shiftX;
+      var pinElementLeft = window.effectLevelPinElement.offsetLeft - shiftX;
 
+      var lineElementLeft = window.effectLevelLineElement.getBoundingClientRect()
+        .left;
+      var lineElementRight = window.effectLevelLineElement.getBoundingClientRect()
+        .right;
+      if (startCoordsX <= lineElementLeft) {
+        pinElementLeft = 0;
+      } else if (startCoordsX >= lineElementRight) {
+        pinElementLeft = window.effectLevelLineElement.clientWidth;
+      }
+
+      window.effectLevelPinElement.style.left = pinElementLeft + 'px';
+      window.effectLevelDepthElement.style.width = pinElementLeft + 'px';
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mousemove', window.changeIntensityEffect);
+
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+  // Изменение положения и интенсивности эффекта по клику на слайдер
+  window.effectLevel.addEventListener('click', function (clickEvt) {
+    var coordsX = clickEvt.clientX;
     var lineElementLeft = window.effectLevelLineElement.getBoundingClientRect()
       .left;
     var lineElementRight = window.effectLevelLineElement.getBoundingClientRect()
       .right;
-    if (startCoordsX <= lineElementLeft) {
-      pinElementLeft = 0;
-    } else if (startCoordsX >= lineElementRight) {
-      pinElementLeft = window.effectLevelLineElement.clientWidth;
+
+    var elementLeft = coordsX - lineElementLeft;
+
+    if (coordsX <= lineElementLeft) {
+      elementLeft = 0;
+    } else if (coordsX >= lineElementRight) {
+      elementLeft = window.effectLevelLineElement.clientWidth;
     }
 
-    window.effectLevelPinElement.style.left = pinElementLeft + 'px';
-    window.effectLevelDepthElement.style.width = pinElementLeft + 'px';
-  };
+    window.effectLevelPinElement.style.left = elementLeft + 'px';
+    window.effectLevelDepthElement.style.width = elementLeft + 'px';
+  });
 
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  };
-
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mousemove', changeIntensityEffect);
-
-  document.addEventListener('mouseup', onMouseUp);
-});
-
-// Изменение положения и интенсивности эффекта по клику на слайдер
-window.effectLevel.addEventListener('click', function (clickEvt) {
-  var coordsX = clickEvt.clientX;
-  var lineElementLeft = window.effectLevelLineElement.getBoundingClientRect()
-    .left;
-  var lineElementRight = window.effectLevelLineElement.getBoundingClientRect()
-    .right;
-
-  var elementLeft = coordsX - lineElementLeft;
-
-  if (coordsX <= lineElementLeft) {
-    elementLeft = 0;
-  } else if (coordsX >= lineElementRight) {
-    elementLeft = window.effectLevelLineElement.clientWidth;
-  }
-
-  window.effectLevelPinElement.style.left = elementLeft + 'px';
-  window.effectLevelDepthElement.style.width = elementLeft + 'px';
-});
-
-window.effectLevel.addEventListener('click', changeIntensityEffect);
+  window.effectLevel.addEventListener('click', window.changeIntensityEffect);
+})();
 
 // 2.1. Масштаб:
 var MIN_SCALE = 0;
