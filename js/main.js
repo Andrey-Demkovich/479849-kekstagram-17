@@ -85,38 +85,41 @@
     return posts;
   };
 
+  // Генерируем массив данных для дальнейшего использования
   window.pictersPosts = generatePostsAlt(URLS);
-  console.log(window.pictersPosts);
 })();
 
-// оооооооооооооооооооооооооооооооооооооооооооооооооооо
+// Файл-модуль gallery.js
+// Создает галерею картинок-постов и вставляет ее в .pictures
+(function () {
+  var picterTemplate = document
+    .querySelector('#picture')
+    .content.querySelector('.picture');
+  var picturesContainerElement = document.querySelector('.pictures');
 
-var picterTemplate = document
-  .querySelector('#picture')
-  .content.querySelector('.picture');
+  // Создаем картинку с постом для галереи
+  var createPicterPost = function (post) {
+    var picterElement = picterTemplate.cloneNode(true);
 
-var createPicterPost = function (post) {
-  var picterElement = picterTemplate.cloneNode(true);
+    picterElement.querySelector('.picture__img').src = post.url;
+    picterElement.querySelector('.picture__likes').textContent = post.likes;
+    picterElement.querySelector('.picture__comments').textContent =
+      post.comments.length;
 
-  picterElement.querySelector('.picture__img').src = post.url;
-  picterElement.querySelector('.picture__likes').textContent = post.likes;
-  picterElement.querySelector('.picture__comments').textContent =
-    post.comments.length;
+    return picterElement;
+  };
 
-  return picterElement;
-};
+  // Создаем галерею картинок-постов и вставлям ее в .pictures
+  var insertFragment = function (posts) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < posts.length; i++) {
+      fragment.appendChild(createPicterPost(posts[i]));
+    }
+    picturesContainerElement.appendChild(fragment);
+  };
 
-var picturesContainerElement = document.querySelector('.pictures');
-
-var insertFragment = function (posts) {
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < posts.length; i++) {
-    fragment.appendChild(createPicterPost(posts[i]));
-  }
-  picturesContainerElement.appendChild(fragment);
-};
-
-insertFragment(window.pictersPosts);
+  insertFragment(window.pictersPosts);
+})();
 
 // Загрузка изображения и показ формы редактирования
 var ESK_KEYCODE = 27;
