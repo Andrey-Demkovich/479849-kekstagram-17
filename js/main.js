@@ -11,12 +11,6 @@
     URLS.push('photos/' + k + '.jpg');
   }
 
-  window.dataMocki = {
-    URLS: URLS
-  };
-
-  console.log(window.dataMocki.URLS);
-
   var COMMENTS = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -77,7 +71,7 @@
   };
 
   // все вместе
-  window.dataMocki.generatePostsAlt = function (urls) {
+  var generatePostsAlt = function (urls) {
     var urlsClone = urls.slice();
     var posts = urls.map(function () {
       var url = urlsClone.splice(
@@ -90,9 +84,12 @@
 
     return posts;
   };
+
+  window.pictersPosts = generatePostsAlt(URLS);
+  console.log(window.pictersPosts);
 })();
 
-// ооооооооооооооооооооооооооооооооооооооооооооооооооооо
+// оооооооооооооооооооооооооооооооооооооооооооооооооооо
 
 var picterTemplate = document
   .querySelector('#picture')
@@ -119,9 +116,7 @@ var insertFragment = function (posts) {
   picturesContainerElement.appendChild(fragment);
 };
 
-console.log(window.dataMocki);
-
-insertFragment(window.dataMocki.generatePostsAlt(window.dataMocki.URLS));
+insertFragment(window.pictersPosts);
 
 // Загрузка изображения и показ формы редактирования
 var ESK_KEYCODE = 27;
