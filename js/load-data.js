@@ -1,11 +1,7 @@
 'use strict';
-// Загружаем данные для магов с сервера
+// Загружаем данные для картинок-постов с сервера
 
 (function () {
-  window.onError = function (message) {
-    console.log(message);
-  };
-
   window.load = function (URL, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -23,7 +19,7 @@
           window.onError('Пользователь не авторизован');
           break;
         case 404:
-          window.onError('Ничего не найдено');
+          window.onError('Данных не найдено');
           break;
 
         case 500:
