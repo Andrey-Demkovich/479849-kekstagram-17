@@ -6,10 +6,9 @@
   window.onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
 
-    if (startCoordsX === undefined) {
-      var startCoordsX = window.effectLevelPinElement.getBoundingClientRect()
-        .left;
-    }
+    var startCoordsX =
+      window.effectLevelPinElement.getBoundingClientRect().left +
+      window.effectLevelPinElement.offsetWidth / 2;
 
     var shiftX = startCoordsX - moveEvt.clientX;
     startCoordsX = moveEvt.clientX;
@@ -34,8 +33,6 @@
   window.effectLevelPinElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
-    var startCoordsX = evt.clientX;
-
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
@@ -50,11 +47,6 @@
   });
 
   // Изменение положения ползунка и интенсивности эффекта по клику на слайдер
-  window.effectLevel.addEventListener('click', function (evt) {
-    var startCoordsX = window.effectLevelPinElement.getBoundingClientRect()
-      .left;
-    window.onMouseMove(evt);
-  });
-
+  window.effectLevel.addEventListener('click', window.onMouseMove);
   window.effectLevel.addEventListener('click', window.changeIntensityEffect);
 })();
