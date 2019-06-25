@@ -11,19 +11,26 @@
       );
     }
 
-    if (evt.target.value === 'none') {
-      window.imageUploadPreviewElement.style.filter = '';
-      window.effectLevel.classList.add('hidden');
-    } else if (evt.target.value === 'chrome') {
-      window.imageUploadPreviewElement.style.filter = 'grayscale(1)';
-    } else if (evt.target.value === 'sepia') {
-      window.imageUploadPreviewElement.style.filter = 'sepia(1)';
-    } else if (evt.target.value === 'marvin') {
-      window.imageUploadPreviewElement.style.filter = 'invert(100%)';
-    } else if (evt.target.value === 'phobos') {
-      window.imageUploadPreviewElement.style.filter = 'blur(3px)';
-    } else if (evt.target.value === 'heat') {
-      window.imageUploadPreviewElement.style.filter = 'brightness(3)';
+    switch (evt.target.value) {
+      case 'none':
+        window.imageUploadPreviewElement.style.filter = '';
+        window.effectLevel.classList.add('hidden');
+        break;
+      case 'chrome':
+        window.imageUploadPreviewElement.style.filter = 'grayscale(1)';
+        break;
+      case 'sepia':
+        window.imageUploadPreviewElement.style.filter = 'sepia(1)';
+        break;
+      case 'marvin':
+        window.imageUploadPreviewElement.style.filter = 'invert(100%)';
+        break;
+      case 'phobos':
+        window.imageUploadPreviewElement.style.filter = 'blur(3px)';
+        break;
+      case 'heat':
+        window.imageUploadPreviewElement.style.filter = 'brightness(3)';
+        break;
     }
 
     // При смене эффекта устаналиваем ползунок слайдера на 100%
