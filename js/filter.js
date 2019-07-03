@@ -31,7 +31,7 @@
 
   // Удаляем подсветку активной кнопки
   var elementsRemoveClass = function (className) {
-    Array.from(imgFiltersButtonElements).forEach(function (element) {
+    imgFiltersButtonElements.forEach(function (element) {
       if (element.classList.contains(className)) {
         element.classList.remove(className);
       }
