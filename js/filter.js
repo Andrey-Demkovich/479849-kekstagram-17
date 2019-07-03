@@ -1,22 +1,28 @@
 'use strict';
 
 (function () {
+  var DEBOUNCE_INTERVAL = 500; // ms
+  var NEW_POSTS = 10;
+
   var imgFiltersElement = document.querySelector('.img-filters');
-  var filterPopularElement = imgFiltersElement.querySelector('#filter-popular');
-  var filterNewElement = imgFiltersElement.querySelector('#filter-new');
-  var filterDiscussedElement = imgFiltersElement.querySelector(
+  var filterPopularButtonElement = imgFiltersElement.querySelector(
+      '#filter-popular'
+  );
+  var filterNewButtonElement = imgFiltersElement.querySelector('#filter-new');
+  var filterDiscussedButtonElement = imgFiltersElement.querySelector(
       '#filter-discussed'
   );
   window.imgFiltersButtonElements = imgFiltersElement.querySelectorAll(
       '.img-filters__button'
   );
+  var lastTimeout = null;
 
   // Создаем с помощью getElementsBy* «живой поисковой запрос» для многократного повторного использования (специальный объект, имеющий тип NodeList или HTMLCollection)
   var pictureElements = window.picturesContainerElement.getElementsByClassName(
       'picture'
   );
 
-  // Удаляем все элементы
+  // Удаляем все элементы elements
   var elementsRemove = function (elements) {
     Array.from(elements).forEach(function (element) {
       element.remove();
@@ -45,28 +51,53 @@
     return arr;
   };
 
-  filterPopularElement.addEventListener('click', function () {
-    elementsRemoveClass('img-filters__button--active');
-    filterPopularElement.classList.add('img-filters__button--active');
+  var onFilterPopularButtonClick = function () {
     elementsRemove(pictureElements);
     window.insertFragment(window.XhrDataImgPosts);
-  });
+  };
 
-  filterNewElement.addEventListener('click', function () {
-    elementsRemoveClass('img-filters__button--active');
-    filterNewElement.classList.add('img-filters__button--active');
-    window.NewPosts = shuffle(window.XhrDataImgPosts).slice(0, 10);
+  var onFilterNewButtonClick = function () {
+    window.NewPosts = shuffle(window.XhrDataImgPosts.slice()).slice(
+        0,
+        NEW_POSTS
+    );
     elementsRemove(pictureElements);
     window.insertFragment(window.NewPosts);
-  });
+  };
 
-  filterDiscussedElement.addEventListener('click', function () {
-    elementsRemoveClass('img-filters__button--active');
-    filterDiscussedElement.classList.add('img-filters__button--active');
+  var onFilterDiscussedButtonClick = function () {
     window.discussedPosts = window.XhrDataImgPosts.slice().sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
     elementsRemove(pictureElements);
     window.insertFragment(window.discussedPosts);
+  };
+
+  var debounce = function (func) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(func, DEBOUNCE_INTERVAL);
+  };
+
+  filterPopularButtonElement.addEventListener('click', function () {
+    elementsRemoveClass('img-filters__button--active');
+    filterPopularButtonElement.classList.add('img-filters__button--active');
+
+    debounce(onFilterPopularButtonClick);
+  });
+
+  filterNewButtonElement.addEventListener('click', function () {
+    elementsRemoveClass('img-filters__button--active');
+    filterNewButtonElement.classList.add('img-filters__button--active');
+
+    debounce(onFilterNewButtonClick);
+  });
+
+  filterDiscussedButtonElement.addEventListener('click', function () {
+    elementsRemoveClass('img-filters__button--active');
+    filterDiscussedButtonElement.classList.add('img-filters__button--active');
+
+    debounce(onFilterDiscussedButtonClick);
   });
 })();
