@@ -7,7 +7,6 @@
   var picterTemplate = document
     .querySelector('#picture')
     .content.querySelector('.picture');
-  window.picturesContainerElement = document.querySelector('.pictures');
 
   // Создаем картинку с постом для галереи
   var createPicterPost = function (post) {
