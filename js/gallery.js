@@ -7,7 +7,7 @@
   var picterTemplate = document
     .querySelector('#picture')
     .content.querySelector('.picture');
-  var picturesContainerElement = document.querySelector('.pictures');
+  window.picturesContainerElement = document.querySelector('.pictures');
 
   // Создаем картинку с постом для галереи
   var createPicterPost = function (post) {
@@ -22,7 +22,7 @@
   };
 
   // Создаем галерею картинок-постов и вставлям ее в .pictures
-  var insertFragment = function (posts) {
+  window.insertFragment = function (posts) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < posts.length; i++) {
       fragment.appendChild(createPicterPost(posts[i]));
@@ -30,5 +30,5 @@
     picturesContainerElement.appendChild(fragment);
   };
 
-  window.load(URL, insertFragment);
+  window.load(URL, window.insertFragment);
 })();
