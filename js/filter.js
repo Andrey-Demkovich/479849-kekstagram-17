@@ -12,7 +12,7 @@
   var filterDiscussedButtonElement = imgFiltersElement.querySelector(
       '#filter-discussed'
   );
-  window.imgFiltersButtonElements = imgFiltersElement.querySelectorAll(
+  var imgFiltersButtonElements = imgFiltersElement.querySelectorAll(
       '.img-filters__button'
   );
   var lastTimeout = null;
@@ -41,7 +41,8 @@
   // Алгоритм тасования Фишера-Йетса в варианте Дурштенфельда (Кнута)
   var shuffle = function (arr) {
     // Using Durstenfeld shuffle algorithm
-    var j, temp;
+    var j;
+    var temp;
     for (var i = arr.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
       temp = arr[j];

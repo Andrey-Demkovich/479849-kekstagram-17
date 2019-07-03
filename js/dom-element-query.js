@@ -33,4 +33,5 @@
   window.scaleCntrolValue = window.imgUploadOverlayElement.querySelector(
       '.scale__control--value'
   );
+  window.picturesContainerElement = document.querySelector('.pictures');
 })();

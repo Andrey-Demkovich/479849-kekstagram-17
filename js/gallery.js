@@ -27,7 +27,7 @@
     for (var i = 0; i < posts.length; i++) {
       fragment.appendChild(createPicterPost(posts[i]));
     }
-    picturesContainerElement.appendChild(fragment);
+    window.picturesContainerElement.appendChild(fragment);
   };
 
   window.load(URL, window.insertFragment);
