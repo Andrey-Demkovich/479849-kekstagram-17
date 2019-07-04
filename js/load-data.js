@@ -9,7 +9,12 @@
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
         case 200:
-          onSuccess(xhr.response);
+          window.XhrDataImgPosts = xhr.response;
+          onSuccess(window.XhrDataImgPosts);
+          // Показываем меню филтрации загруженных изображений
+          document
+            .querySelector('.img-filters')
+            .classList.remove('img-filters--inactive');
           break;
 
         case 400:
@@ -39,7 +44,7 @@
     xhr.addEventListener('timeout', function () {
       window.onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    xhr.timeout = 2000;
+    xhr.timeout = 10000;
 
     xhr.open('GET', URL);
     xhr.send();
