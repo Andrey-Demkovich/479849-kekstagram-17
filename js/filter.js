@@ -17,11 +17,6 @@
   );
   var lastTimeout = null;
 
-  // Создаем с помощью getElementsBy* «живой поисковой запрос» для многократного повторного использования (специальный объект, имеющий тип NodeList или HTMLCollection)
-  var pictureElements = window.picturesContainerElement.getElementsByClassName(
-      'picture'
-  );
-
   // Удаляем все элементы elements
   var elementsRemove = function (elements) {
     Array.from(elements).forEach(function (element) {
@@ -52,28 +47,41 @@
     return arr;
   };
 
-  var onFilterPopularButtonClick = function () {
-    elementsRemove(pictureElements);
-    window.insertFragment(window.XhrDataImgPosts);
+  // Переключаем состояние(отрисовку активной кнопки)
+  var onToggleButtonActive = function (filterButtonElement) {
+    elementsRemoveClass('img-filters__button--active');
+    filterButtonElement.classList.add('img-filters__button--active');
   };
 
-  var onFilterNewButtonClick = function () {
-    window.NewPosts = shuffle(window.XhrDataImgPosts.slice()).slice(
-        0,
-        NEW_POSTS
+  // Находим и удаляем все старые картинки посты и вставляем новые
+  var onFilterButtonClick = function (dataPosts) {
+    var pictureElements = window.picturesContainerElement.querySelectorAll(
+        '.picture'
     );
     elementsRemove(pictureElements);
-    window.insertFragment(window.NewPosts);
+    window.insertFragment(dataPosts);
   };
 
+  // Обработчик кнопки "Популярные"
+  var onFilterPopularButtonClick = function () {
+    onFilterButtonClick(window.XhrDataImgPosts);
+  };
+
+  // Обработчик кнопки "Новые"
+  var onFilterNewButtonClick = function () {
+    var NewPosts = shuffle(window.XhrDataImgPosts.slice()).slice(0, NEW_POSTS);
+    onFilterButtonClick(NewPosts);
+  };
+
+  // Обработчик кнопки "Обсуждаемые"
   var onFilterDiscussedButtonClick = function () {
-    window.discussedPosts = window.XhrDataImgPosts.slice().sort(function (a, b) {
+    var discussedPosts = window.XhrDataImgPosts.slice().sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
-    elementsRemove(pictureElements);
-    window.insertFragment(window.discussedPosts);
+    onFilterButtonClick(discussedPosts);
   };
 
+  // Функция устранения "дребезга" (debounce)
   var debounce = function (func) {
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
@@ -82,23 +90,17 @@
   };
 
   filterPopularButtonElement.addEventListener('click', function () {
-    elementsRemoveClass('img-filters__button--active');
-    filterPopularButtonElement.classList.add('img-filters__button--active');
-
+    onToggleButtonActive(filterPopularButtonElement);
     debounce(onFilterPopularButtonClick);
   });
 
   filterNewButtonElement.addEventListener('click', function () {
-    elementsRemoveClass('img-filters__button--active');
-    filterNewButtonElement.classList.add('img-filters__button--active');
-
+    onToggleButtonActive(filterNewButtonElement);
     debounce(onFilterNewButtonClick);
   });
 
   filterDiscussedButtonElement.addEventListener('click', function () {
-    elementsRemoveClass('img-filters__button--active');
-    filterDiscussedButtonElement.classList.add('img-filters__button--active');
-
+    onToggleButtonActive(filterDiscussedButtonElement);
     debounce(onFilterDiscussedButtonClick);
   });
 })();
