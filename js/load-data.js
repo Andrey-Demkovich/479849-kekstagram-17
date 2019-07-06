@@ -30,7 +30,7 @@
           break;
 
         case 500:
-          onError('Ошибка сервера');
+          window.onError('Ошибка сервера');
           break;
 
         default:
