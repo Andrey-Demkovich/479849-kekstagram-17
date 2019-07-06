@@ -29,5 +29,5 @@
     window.picturesContainerElement.appendChild(fragment);
   };
 
-  window.load(URL, window.insertFragment);
+  window.load(URL, window.insertFragment, window.createBigPicture);
 })();
