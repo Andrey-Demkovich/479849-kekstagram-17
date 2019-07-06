@@ -14,9 +14,6 @@
   var socialCommentContainerElement = window.bigPictureElement.querySelector(
       '.social__comments'
   );
-  var socialCommentElements = window.bigPictureElement.querySelectorAll(
-      '.social__comment'
-  );
   var socialCommentElement = window.bigPictureElement.querySelector(
       '.social__comment'
   );
@@ -24,28 +21,40 @@
       '.social__caption'
   );
 
-  var createCommentElement = function (bigPictureData) {
-    console.log(bigPictureData);
-    var commentElement = socialCommentElement.cloneNode(true);
-    var fragmentComment = document.createDocumentFragment();
-    // for (var i = 0; i < 5; i++)
-    var i = 0;
-    var commentElements = [];
-    while (
-      commentElements.length < 5 &&
-      commentElements.length < bigPictureData.comments.length
-    ) {
-      commentElement.querySelector('.social__picture').src =
-        bigPictureData.comments[i].avatar;
-      commentElement.querySelector('.social__text').textContent =
-        bigPictureData.comments[i].message;
-      fragmentComment.appendChild(commentElement);
-      console.log(fragmentComment);
-      commentElements = fragmentComment.querySelectorAll('.social__comment');
-      commentElement = commentElement.cloneNode(true);
-      i++;
+  // Создаем комментарий
+  var createCommentElement = function (elementData) {
+    // Если создается первый комментарий клонируем его из HTML
+    if (!commentElement) {
+      var commentElement = socialCommentElement.cloneNode(true);
     }
 
+    // Заполняем комментарий данными
+    commentElement.querySelector('.social__picture').src = elementData.avatar;
+    commentElement.querySelector('.social__text').textContent =
+      elementData.message;
+
+    commentElement = commentElement.cloneNode(true);
+
+    return commentElement;
+  };
+
+  // Создаем 5 комментариев или меньше (если данные содержат меньше 5 комментов) и вставляем в документ
+  var createCommentElements = function (bigPictureData) {
+    var fragmentComment = document.createDocumentFragment();
+    var commentElements = [];
+
+    for (
+      var i = 0;
+      i < 5 && commentElements.length < bigPictureData.comments.length;
+      i++
+    ) {
+      fragmentComment.appendChild(
+          createCommentElement(bigPictureData.comments[i])
+      );
+      commentElements = fragmentComment.querySelectorAll('.social__comment');
+    }
+
+    // Очищаем содержимое контейнера для комментариев от комментариев начальной HTML разметки
     socialCommentContainerElement.innerHTML = '';
     socialCommentContainerElement.appendChild(fragmentComment);
   };
@@ -56,14 +65,8 @@
     likesCountElement.textContent = bigPictureData.likes;
     commentsCountElement.textContent = bigPictureData.comments.length;
 
-    createCommentElement(bigPictureData);
+    createCommentElements(bigPictureData);
 
-    // socialCommentElements.forEach(function (element, i) {
-    //   element.querySelector('.social__picture').src =
-    //     bigPictureData.comments[i].avatar;
-    //   element.querySelector('.social__text').textContent =
-    //     bigPictureData.comments[i].message;
-    // });
     socialCaptionElement.textContent = bigPictureData.description;
     window.bigPictureElement
       .querySelector('.social__comment-count')
