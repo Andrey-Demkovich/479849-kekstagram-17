@@ -2,7 +2,7 @@
 // Создает галерею картинок-постов и вставляет ее в .pictures
 
 (function () {
-  window.URL = 'https://js.dump.academy/kekstagram/data';
+  URL = 'https://js.dump.academy/kekstagram/data';
 
   var picterTemplate = document
     .querySelector('#picture')
@@ -29,5 +29,5 @@
     window.picturesContainerElement.appendChild(fragment);
   };
 
-  window.load(window.URL, window.insertFragment);
+  window.load(URL, window.insertFragment, window.createBigPicture);
 })();
