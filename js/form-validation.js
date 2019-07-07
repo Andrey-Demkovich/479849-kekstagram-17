@@ -3,18 +3,22 @@
 (function () {
   var textHashtagsElement = document.querySelector('.text__hashtags');
 
-  textHashtagsElement.addEventListener('change', function (evt) {
-    var invalidMessage = [];
+  textHashtagsElement.addEventListener('change', function () {
+    var invalidMessage = []; // Для хранения сообщений об ошибках
+
+    // Получаем содержание input и приводим к одному регистру
     var inputText = textHashtagsElement.value.toLowerCase();
+    // Если input пустой то выходим из функции и ничего не делаем
     if (!inputText) {
       return;
     }
 
+    // Для удобства обработки хэш-тегов преобразуем их в массив, пробельные символы не считаем элементом (фильтрация)
     var inputArray = inputText.split(' ').filter(function (item) {
       return item !== '';
     });
-    console.log(inputArray);
 
+    // Выполняем проверки:
     var isStartNotHashtag = inputArray.some(function (item) {
       return item[0] !== '#';
     });
@@ -58,7 +62,7 @@
       invalidMessage.push('Нельзя указать больше пяти хэш-тегов');
     }
 
-    console.log(invalidMessage);
+    // Преобразуем массив сообщений об ошибках в строку и с помощью setCustomValidity задаем сообщение об ошибках
     textHashtagsElement.setCustomValidity(invalidMessage.join('. \n'));
   });
 })();
