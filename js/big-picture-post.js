@@ -40,19 +40,17 @@
 
   // Создаем 5 комментариев или меньше (если данные содержат меньше 5 комментов) и вставляем в документ
   var createCommentElements = function (bigPictureData) {
+    var MAX_COMMENTS_PAGE = 5;
     var fragmentComment = document.createDocumentFragment();
-    var commentElements = [];
+    // Используем 5 комментариев
+    var bigPictureDataFives = bigPictureData.comments.slice(
+        0,
+        MAX_COMMENTS_PAGE
+    );
 
-    for (
-      var i = 0;
-      i < 5 && commentElements.length < bigPictureData.comments.length;
-      i++
-    ) {
-      fragmentComment.appendChild(
-          createCommentElement(bigPictureData.comments[i])
-      );
-      commentElements = fragmentComment.querySelectorAll('.social__comment');
-    }
+    bigPictureDataFives.forEach(function (item) {
+      fragmentComment.appendChild(createCommentElement(item));
+    });
 
     // Очищаем содержимое контейнера для комментариев от комментариев начальной HTML разметки
     socialCommentContainerElement.innerHTML = '';
