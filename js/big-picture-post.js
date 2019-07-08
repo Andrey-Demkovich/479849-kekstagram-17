@@ -20,6 +20,13 @@
   var socialCaptionElement = window.bigPictureElement.querySelector(
       '.social__caption'
   );
+  var socialCommentCountElement = window.bigPictureElement.querySelector(
+      '.social__comment-count'
+  );
+
+  var commentsLoaderElement = window.bigPictureElement.querySelector(
+      '.comments-loader'
+  );
 
   // Создаем комментарий
   var createCommentElement = function (elementData) {
@@ -66,11 +73,7 @@
     createCommentElements(bigPictureData);
 
     socialCaptionElement.textContent = bigPictureData.description;
-    window.bigPictureElement
-      .querySelector('.social__comment-count')
-      .classList.add('visually-hidden');
-    window.bigPictureElement
-      .querySelector('.comments-loader')
-      .classList.add('visually-hidden');
+    socialCommentCountElement.classList.add('visually-hidden');
+    commentsLoaderElement.classList.add('visually-hidden');
   };
 })();
