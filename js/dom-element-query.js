@@ -34,4 +34,5 @@
       '.scale__control--value'
   );
   window.picturesContainerElement = document.querySelector('.pictures');
+  window.bigPictureElement = document.querySelector('.big-picture');
 })();

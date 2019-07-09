@@ -2,7 +2,7 @@
 // Загружаем данные для картинок-постов с сервера
 
 (function () {
-  window.load = function (URL, onSuccess1, onSuccess2) {
+  window.load = function (URL, onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -10,13 +10,12 @@
       switch (xhr.status) {
         case 200:
           window.XhrDataImgPosts = xhr.response;
-          onSuccess1(window.XhrDataImgPosts);
+          onSuccess(window.XhrDataImgPosts);
+
           // Показываем меню филтрации загруженных изображений
           document
             .querySelector('.img-filters')
             .classList.remove('img-filters--inactive');
-
-          onSuccess2(window.XhrDataImgPosts);
           break;
 
         case 400:
