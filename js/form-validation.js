@@ -1,13 +1,14 @@
 'use strict';
+// Проверяем валидность хэш-тегов
 
 (function () {
-  var textHashtagsElement = document.querySelector('.text__hashtags');
+  // var textHashtagsElement = document.querySelector('.text__hashtags');
 
-  textHashtagsElement.addEventListener('change', function () {
+  window.textHashtagsElement.addEventListener('change', function () {
     var invalidMessage = []; // Для хранения сообщений об ошибках
 
     // Получаем содержание input и приводим к одному регистру
-    var inputText = textHashtagsElement.value.toLowerCase();
+    var inputText = window.textHashtagsElement.value.toLowerCase();
     // Если input пустой то выходим из функции и ничего не делаем
     if (!inputText) {
       return;
@@ -63,6 +64,6 @@
     }
 
     // Преобразуем массив сообщений об ошибках в строку и с помощью setCustomValidity задаем сообщение об ошибках
-    textHashtagsElement.setCustomValidity(invalidMessage.join('. \n'));
+    window.textHashtagsElement.setCustomValidity(invalidMessage.join('. \n'));
   });
 })();
