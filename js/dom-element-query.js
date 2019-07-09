@@ -2,6 +2,7 @@
 // Задает глобально частоиспользуемые DOM-элементы
 
 (function () {
+  window.uploadFileElement = document.querySelector('#upload-file');
   window.imgUploadOverlayElement = document.querySelector(
       '.img-upload__overlay'
   );
@@ -35,5 +36,10 @@
   );
   window.picturesContainerElement = document.querySelector('.pictures');
   window.bigPictureElement = document.querySelector('.big-picture');
-  window.textHashtagsElement = document.querySelector('.text__hashtags');
+  window.textHashtagsElement = imgUploadOverlayElement.querySelector(
+      '.text__hashtags'
+  );
+  window.textDescriptionElement = window.imgUploadOverlayElement.querySelector(
+      '.text__description'
+  );
 })();

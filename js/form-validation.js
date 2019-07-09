@@ -2,8 +2,6 @@
 // Проверяем валидность хэш-тегов
 
 (function () {
-  // var textHashtagsElement = document.querySelector('.text__hashtags');
-
   window.textHashtagsElement.addEventListener('change', function () {
     var invalidMessage = []; // Для хранения сообщений об ошибках
 

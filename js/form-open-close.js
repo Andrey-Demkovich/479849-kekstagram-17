@@ -4,13 +4,8 @@
 (function () {
   var ESK_KEYCODE = 27;
 
-  var uploadFileElement = document.querySelector('#upload-file');
-
   var uploadCancelElement = window.imgUploadOverlayElement.querySelector(
       '#upload-cancel'
-  );
-  var textDescriptionElement = window.imgUploadOverlayElement.querySelector(
-      '.text__description'
   );
 
   var onImgUploadEscPress = function (evt) {
@@ -19,7 +14,7 @@
     }
   };
 
-  var closeImgUpload = function () {
+  window.closeImgUpload = function () {
     window.imgUploadOverlayElement.classList.add('hidden');
 
     document.removeEventListener('keydown', onImgUploadEscPress);
@@ -54,7 +49,7 @@
     document.addEventListener('keydown', onImgUploadEscPress);
 
     // Если фокус находится в поле ввода комментария или хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
-    forbidCloseFormElementFocus(textDescriptionElement);
+    forbidCloseFormElementFocus(window.textDescriptionElement);
     forbidCloseFormElementFocus(window.textHashtagsElement);
 
     uploadCancelElement.addEventListener('click', function () {
@@ -62,7 +57,7 @@
     });
   };
 
-  uploadFileElement.addEventListener('change', function () {
+  window.uploadFileElement.addEventListener('change', function () {
     openImgUpload();
   });
 })();
