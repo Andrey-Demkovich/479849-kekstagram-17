@@ -36,7 +36,7 @@
   );
   window.picturesContainerElement = document.querySelector('.pictures');
   window.bigPictureElement = document.querySelector('.big-picture');
-  window.textHashtagsElement = imgUploadOverlayElement.querySelector(
+  window.textHashtagsElement = window.imgUploadOverlayElement.querySelector(
       '.text__hashtags'
   );
   window.textDescriptionElement = window.imgUploadOverlayElement.querySelector(

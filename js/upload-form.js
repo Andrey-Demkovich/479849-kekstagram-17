@@ -11,18 +11,14 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
-        console.log(100);
-        console.log(xhr.status);
-        console.log(xhr.statusText);
-
         onSuccess();
       } else {
-        error();
+        onError();
       }
     });
 
     xhr.addEventListener('error', function () {
-      error('Произошла ошибка соединения');
+      onError('Произошла ошибка соединения');
     });
     xhr.open('POST', URL);
     xhr.send(data);
@@ -45,7 +41,7 @@
 
   var closeDialog = function (dialogSelector) {
     var dialogElement = mainElement.querySelector('.' + dialogSelector);
-    var dialogButtonElement = dialogElement.querySelector(
+    var dialogButtonElements = dialogElement.querySelectorAll(
         '.' + dialogSelector + '__button'
     );
 
@@ -65,8 +61,10 @@
     };
 
     document.addEventListener('keydown', onElementEscPress);
-    dialogButtonElement.addEventListener('click', dialogElementRemove);
     dialogElement.addEventListener('click', dialogRemove);
+    dialogButtonElements.forEach(function (item) {
+      item.addEventListener('click', dialogElementRemove);
+    });
   };
 
   var onSucces = function () {
@@ -76,7 +74,7 @@
     closeDialog('success');
   };
 
-  var error = function () {
+  var onError = function () {
     window.closeImgUpload();
     resetImgUpload();
     openDialog('error');
@@ -85,7 +83,6 @@
 
   imgUploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    console.log(1);
     window.upload(new FormData(imgUploadForm), onSucces);
   });
 })();

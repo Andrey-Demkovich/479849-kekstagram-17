@@ -10,7 +10,7 @@
 
   var onImgUploadEscPress = function (evt) {
     if (evt.keyCode === ESK_KEYCODE) {
-      closeImgUpload();
+      window.closeImgUpload();
     }
   };
 
@@ -53,7 +53,7 @@
     forbidCloseFormElementFocus(window.textHashtagsElement);
 
     uploadCancelElement.addEventListener('click', function () {
-      closeImgUpload();
+      window.closeImgUpload();
     });
   };
 
