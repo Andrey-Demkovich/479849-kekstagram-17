@@ -10,33 +10,14 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      switch (xhr.status) {
-        case 200:
-          console.log(100);
-          console.log(xhr.status);
-          console.log(xhr.statusText);
+      if (xhr.status === 200) {
+        console.log(100);
+        console.log(xhr.status);
+        console.log(xhr.statusText);
 
-          onSuccess();
-          break;
-
-        case 400:
-          window.onError('Не верный запрос');
-          break;
-        case 401:
-          window.onError('Пользователь не авторизован');
-          break;
-        case 404:
-          window.onError('Данных не найдено');
-          break;
-
-        case 500:
-          window.onError('Ошибка сервера');
-          break;
-
-        default:
-          window.onError(
-              'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText
-          );
+        onSuccess();
+      } else {
+        error();
       }
     });
 
@@ -62,39 +43,44 @@
     mainElement.appendChild(successTemplateClone);
   };
 
-  var closeSuccesDialog = function () {
-    var successElement = mainElement.querySelector('.success');
-    var successButtonElement = successElement.querySelector('.success__button');
-    var successInnerElement = successElement.querySelector('.success__inner');
+  var closeDialog = function (dialogSelector) {
+    var dialogElement = mainElement.querySelector('.' + dialogSelector);
+    var dialogButtonElement = dialogElement.querySelector(
+        '.' + dialogSelector + '__button'
+    );
 
-    var successElementRemove = function () {
-      successElement.remove();
+    var dialogElementRemove = function () {
+      dialogElement.remove();
       document.removeEventListener('keydown', onElementEscPress);
     };
 
     var onElementEscPress = function (evt) {
-      window.onElementEscPress(evt, successElementRemove);
+      window.onElementEscPress(evt, dialogElementRemove);
+    };
+
+    var dialogRemove = function (evt) {
+      if (!evt.target.closest('.' + dialogSelector + '__inner')) {
+        dialogElementRemove();
+      }
     };
 
     document.addEventListener('keydown', onElementEscPress);
-    successButtonElement.addEventListener('click', successElementRemove);
-    successElement.addEventListener('click', function (evt) {
-      if (!evt.target.closest('.success__inner')) {
-        successElementRemove();
-      }
-    });
+    dialogButtonElement.addEventListener('click', dialogElementRemove);
+    dialogElement.addEventListener('click', dialogRemove);
   };
 
   var onSucces = function () {
     window.closeImgUpload();
     resetImgUpload();
     openDialog('success');
-    closeSuccesDialog();
+    closeDialog('success');
   };
 
   var error = function () {
     window.closeImgUpload();
+    resetImgUpload();
     openDialog('error');
+    closeDialog('error');
   };
 
   imgUploadForm.addEventListener('submit', function (evt) {
