@@ -29,6 +29,16 @@
     window.imageUploadPreviewElement.style.transform = 'scale(1)';
   };
 
+  // Если фокус находится на элементе, нажатие на Esc не должно приводить к закрытию формы
+  var forbidCloseFormElementFocus = function (element) {
+    element.addEventListener('focus', function () {
+      document.removeEventListener('keydown', onImgUploadEscPress);
+    });
+    element.addEventListener('blur', function () {
+      document.addEventListener('keydown', onImgUploadEscPress);
+    });
+  };
+
   var openImgUpload = function () {
     window.imgUploadOverlayElement.classList.remove('hidden');
 
@@ -42,14 +52,10 @@
     window.effectLevelDepthElement.style.width = '100%';
 
     document.addEventListener('keydown', onImgUploadEscPress);
-    //   2.4. Комментарий:
-    //   - если фокус находится в поле ввода комментария, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
-    textDescriptionElement.addEventListener('focus', function () {
-      document.removeEventListener('keydown', onImgUploadEscPress);
-    });
-    textDescriptionElement.addEventListener('blur', function () {
-      document.addEventListener('keydown', onImgUploadEscPress);
-    });
+
+    // Если фокус находится в поле ввода комментария или хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
+    forbidCloseFormElementFocus(textDescriptionElement);
+    forbidCloseFormElementFocus(window.textHashtagsElement);
 
     uploadCancelElement.addEventListener('click', function () {
       closeImgUpload();

@@ -35,4 +35,5 @@
   );
   window.picturesContainerElement = document.querySelector('.pictures');
   window.bigPictureElement = document.querySelector('.big-picture');
+  window.textHashtagsElement = document.querySelector('.text__hashtags');
 })();
