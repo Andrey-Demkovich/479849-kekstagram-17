@@ -17,6 +17,7 @@
   var closeBigPicture = function () {
     window.bigPictureElement.classList.add('hidden');
 
+    // При закрытии фото удаляем обработчик кнопки 'Загрузить еще'
     window.commentsLoaderElement.removeEventListener(
         'click',
         window.createFiveElements

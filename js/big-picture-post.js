@@ -24,11 +24,7 @@
       '.social__comment-count'
   );
 
-  window.commentsLoaderElement = window.bigPictureElement.querySelector(
-      '.comments-loader'
-  );
-
-  // Создаем комментарий
+  // Создает 1 комментарий
   var createCommentElement = function (elementData) {
     // Если создается первый комментарий клонируем его из HTML
     if (!commentElement) {
@@ -45,6 +41,7 @@
     return commentElement;
   };
 
+  // Создает 5 комментариев и вставляем в документ
   var createFiveCommentsElements = function (dataFives) {
     var fragmentComment = document.createDocumentFragment();
     dataFives.forEach(function (item) {
@@ -53,27 +50,39 @@
     socialCommentContainerElement.appendChild(fragmentComment);
   };
 
-  // Создаем 5 комментариев или меньше (если данные содержат меньше 5 комментов) и вставляем в документ
+  // Делает выборку данных для 5 первых комментариев при открытии окна и при нажатии на кнопку 'Загрузить еще'
   var createCommentElements = function (bigPictureData) {
-    socialCommentContainerElement.innerHTML = '';
     var MAX_COMMENTS_PAGE = 5;
-    var bigPictureDataClone = bigPictureData.comments.slice();
+    // Клонируем массив комментариев
+    var bigPictureCommentsClone = bigPictureData.comments.slice();
 
+    // Очищаем контейнер для вставки комментариев при открытии окна
+    socialCommentContainerElement.innerHTML = '';
+
+    // Вырезает первых пять комментариев массива и вставляет их в пост
     window.createFiveElements = function () {
-      var bigPictureDataFives = bigPictureDataClone.splice(
+      var bigPictureDataFives = bigPictureCommentsClone.splice(
           0,
           MAX_COMMENTS_PAGE
       );
-      if (bigPictureDataClone.length === 0) {
-        commentsLoaderElement.classList.add('visually-hidden');
+
+      // Если массив комментариев пуст скрываем кнопку 'Загрузить еще'
+      if (bigPictureCommentsClone.length === 0) {
+        window.commentsLoaderElement.classList.add('visually-hidden');
       }
 
+      // Создает 5 комментариев и вставляет в пост
       createFiveCommentsElements(bigPictureDataFives);
     };
 
+    // Создаем первых 5 комментариев и вставляем в пост
     window.createFiveElements();
 
-    commentsLoaderElement.addEventListener('click', window.createFiveElements);
+    // При клике на кнопке 'Загрузить еще' вставит еще 5 комментариев
+    window.commentsLoaderElement.addEventListener(
+        'click',
+        window.createFiveElements
+    );
   };
 
   // Заполняет данные при просмотре фотографий в полноразмерном режиме
@@ -82,8 +91,9 @@
     likesCountElement.textContent = bigPictureData.likes;
     commentsCountElement.textContent = bigPictureData.comments.length;
 
-    commentsLoaderElement.classList.remove('visually-hidden');
-
+    // Если кнопка 'Загрузить еще' скрыта, показываем ее
+    window.commentsLoaderElement.classList.remove('visually-hidden');
+    // Вставляем 5 комментариев
     createCommentElements(bigPictureData);
 
     socialCaptionElement.textContent = bigPictureData.description;

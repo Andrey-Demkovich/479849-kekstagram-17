@@ -36,6 +36,9 @@
   );
   window.picturesContainerElement = document.querySelector('.pictures');
   window.bigPictureElement = document.querySelector('.big-picture');
+  window.commentsLoaderElement = window.bigPictureElement.querySelector(
+      '.comments-loader'
+  );
   window.textHashtagsElement = window.imgUploadOverlayElement.querySelector(
       '.text__hashtags'
   );
