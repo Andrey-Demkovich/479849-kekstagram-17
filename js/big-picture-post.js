@@ -45,42 +45,35 @@
     return commentElement;
   };
 
-  // Создаем 5 комментариев или меньше (если данные содержат меньше 5 комментов) и вставляем в документ
-  var createCommentElements = function (bigPictureData) {
-    var MAX_COMMENTS_PAGE = 5;
+  var createFiveCommentsElements = function (dataFives) {
     var fragmentComment = document.createDocumentFragment();
-    var bigPictureDataClone = bigPictureData.comments.slice();
-    // Используем 5 комментариев
-    var bigPictureDataFives = bigPictureDataClone.splice(0, MAX_COMMENTS_PAGE);
-
-    bigPictureDataFives.forEach(function (item) {
+    dataFives.forEach(function (item) {
       fragmentComment.appendChild(createCommentElement(item));
     });
-
-    // Очищаем содержимое контейнера для комментариев от комментариев начальной HTML разметки
-    socialCommentContainerElement.innerHTML = '';
     socialCommentContainerElement.appendChild(fragmentComment);
-    if (bigPictureDataClone.length === 0) {
-      commentsLoaderElement.classList.add('visually-hidden');
-    }
+  };
 
-    window.onCommentsLoaderElementClick = function () {
-      bigPictureDataFives = bigPictureDataClone.splice(0, MAX_COMMENTS_PAGE);
+  // Создаем 5 комментариев или меньше (если данные содержат меньше 5 комментов) и вставляем в документ
+  var createCommentElements = function (bigPictureData) {
+    socialCommentContainerElement.innerHTML = '';
+    var MAX_COMMENTS_PAGE = 5;
+    var bigPictureDataClone = bigPictureData.comments.slice();
 
-      bigPictureDataFives.forEach(function (item) {
-        fragmentComment.appendChild(createCommentElement(item));
-      });
-      socialCommentContainerElement.appendChild(fragmentComment);
-
+    window.createFiveElements = function () {
+      var bigPictureDataFives = bigPictureDataClone.splice(
+          0,
+          MAX_COMMENTS_PAGE
+      );
       if (bigPictureDataClone.length === 0) {
         commentsLoaderElement.classList.add('visually-hidden');
       }
+
+      createFiveCommentsElements(bigPictureDataFives);
     };
 
-    commentsLoaderElement.addEventListener(
-        'click',
-        window.onCommentsLoaderElementClick
-    );
+    window.createFiveElements();
+
+    commentsLoaderElement.addEventListener('click', window.createFiveElements);
   };
 
   // Заполняет данные при просмотре фотографий в полноразмерном режиме

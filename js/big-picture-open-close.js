@@ -19,7 +19,7 @@
 
     window.commentsLoaderElement.removeEventListener(
         'click',
-        window.onCommentsLoaderElementClick
+        window.createFiveElements
     );
 
     // Удаляем обработчик закрытия при нажатии Esc
