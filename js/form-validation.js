@@ -63,5 +63,8 @@
 
     // Преобразуем массив сообщений об ошибках в строку и с помощью setCustomValidity задаем сообщение об ошибках
     window.textHashtagsElement.setCustomValidity(invalidMessage.join('. \n'));
+    if (window.textHashtagsElement.validationMessage) {
+      window.textHashtagsElement.style.outlineColor = 'red';
+    }
   });
 })();
