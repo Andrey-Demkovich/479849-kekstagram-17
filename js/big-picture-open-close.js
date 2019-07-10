@@ -38,6 +38,8 @@
       return;
     }
 
+    // Из ТЗ - Элементу body задаётся класс modal-open.
+    document.body.classList.add('modal-open');
     // Фильтруем загруженные данные и определяем по src кликнутой картинки какой объект с данными нужен для отрисовки большого фото
     var filterDataElement = window.XhrDataImgPosts.filter(function (object) {
       return object.url === picture.querySelector('img').getAttribute('src');
