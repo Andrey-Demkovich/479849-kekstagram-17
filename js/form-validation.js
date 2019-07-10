@@ -63,6 +63,8 @@
 
     // Преобразуем массив сообщений об ошибках в строку и с помощью setCustomValidity задаем сообщение об ошибках
     window.textHashtagsElement.setCustomValidity(invalidMessage.join('. \n'));
+
+    // Неверно заполненные поля подсвечиваются красной рамкой
     if (window.textHashtagsElement.validationMessage) {
       window.textHashtagsElement.style.outlineColor = 'red';
     }
