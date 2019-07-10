@@ -52,12 +52,13 @@
     // Скрывает (удаляет) диалоговое окно непосредственно, удаляет обработчик ESC
     var dialogElementRemove = function () {
       dialogElement.remove();
-      document.removeEventListener('keydown', onElementEscPress);
+      document.removeEventListener('keydown', onDialogEscPress);
     };
 
-    // Обработчик клавиши ESC
-    var onElementEscPress = function (evt) {
-      window.onElementEscPress(evt, dialogElementRemove);
+    var onDialogEscPress = function (evt) {
+      if (evt.keyCode === 27) {
+        dialogElementRemove();
+      }
     };
 
     // Проверяет если щелчек не по диалговому окну то закрывает его
@@ -68,7 +69,7 @@
     };
 
     // Закрывает нажатием на ESC
-    document.addEventListener('keydown', onElementEscPress);
+    document.addEventListener('keydown', onDialogEscPress);
     // Закрывает по клику на произвольную область экрана
     dialogElement.addEventListener('click', dialogRemove);
     // Закрывает по клику на buttons
