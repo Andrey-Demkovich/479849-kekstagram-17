@@ -17,6 +17,11 @@
   var closeBigPicture = function () {
     window.bigPictureElement.classList.add('hidden');
 
+    window.commentsLoaderElement.removeEventListener(
+        'click',
+        window.onCommentsLoaderElementClick
+    );
+
     // Удаляем обработчик закрытия при нажатии Esc
     document.removeEventListener('keydown', onBigPictureEscPress);
   };

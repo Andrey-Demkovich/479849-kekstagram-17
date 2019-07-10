@@ -24,7 +24,7 @@
       '.social__comment-count'
   );
 
-  var commentsLoaderElement = window.bigPictureElement.querySelector(
+  window.commentsLoaderElement = window.bigPictureElement.querySelector(
       '.comments-loader'
   );
 
@@ -49,11 +49,9 @@
   var createCommentElements = function (bigPictureData) {
     var MAX_COMMENTS_PAGE = 5;
     var fragmentComment = document.createDocumentFragment();
+    var bigPictureDataClone = bigPictureData.comments.slice();
     // Используем 5 комментариев
-    var bigPictureDataFives = bigPictureData.comments.slice(
-        0,
-        MAX_COMMENTS_PAGE
-    );
+    var bigPictureDataFives = bigPictureDataClone.splice(0, MAX_COMMENTS_PAGE);
 
     bigPictureDataFives.forEach(function (item) {
       fragmentComment.appendChild(createCommentElement(item));
@@ -62,6 +60,27 @@
     // Очищаем содержимое контейнера для комментариев от комментариев начальной HTML разметки
     socialCommentContainerElement.innerHTML = '';
     socialCommentContainerElement.appendChild(fragmentComment);
+    if (bigPictureDataClone.length === 0) {
+      commentsLoaderElement.classList.add('visually-hidden');
+    }
+
+    window.onCommentsLoaderElementClick = function () {
+      bigPictureDataFives = bigPictureDataClone.splice(0, MAX_COMMENTS_PAGE);
+
+      bigPictureDataFives.forEach(function (item) {
+        fragmentComment.appendChild(createCommentElement(item));
+      });
+      socialCommentContainerElement.appendChild(fragmentComment);
+
+      if (bigPictureDataClone.length === 0) {
+        commentsLoaderElement.classList.add('visually-hidden');
+      }
+    };
+
+    commentsLoaderElement.addEventListener(
+        'click',
+        window.onCommentsLoaderElementClick
+    );
   };
 
   // Заполняет данные при просмотре фотографий в полноразмерном режиме
@@ -70,10 +89,11 @@
     likesCountElement.textContent = bigPictureData.likes;
     commentsCountElement.textContent = bigPictureData.comments.length;
 
+    commentsLoaderElement.classList.remove('visually-hidden');
+
     createCommentElements(bigPictureData);
 
     socialCaptionElement.textContent = bigPictureData.description;
     socialCommentCountElement.classList.add('visually-hidden');
-    commentsLoaderElement.classList.add('visually-hidden');
   };
 })();
