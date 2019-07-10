@@ -48,6 +48,13 @@
       fragmentComment.appendChild(createCommentElement(item));
     });
     socialCommentContainerElement.appendChild(fragmentComment);
+
+    // Подсчитываем колличество показанных комментариев и показываем их в посте (socialCommentCountElement)
+    var countAddComments = socialCommentContainerElement.querySelectorAll(
+        '.social__comment'
+    ).length;
+    socialCommentCountElement.firstChild.textContent =
+      countAddComments + ' из ';
   };
 
   // Делает выборку данных для 5 первых комментариев при открытии окна и при нажатии на кнопку 'Загрузить еще'
@@ -97,6 +104,6 @@
     createCommentElements(bigPictureData);
 
     socialCaptionElement.textContent = bigPictureData.description;
-    socialCommentCountElement.classList.add('visually-hidden');
+    // socialCommentCountElement.classList.add('visually-hidden');
   };
 })();
