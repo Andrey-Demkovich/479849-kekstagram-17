@@ -6,7 +6,7 @@
   var MIN_INTENSITY_HEAT = 1;
   var INTERVAL_INTENSITY_HEAT = 2;
 
-  window.changeIntensityEffect = function () {
+  window.onIntensityEffectChange = function () {
     window.effectLevelValueElement.value =
       (
         window.effectLevelPinElement.offsetLeft /

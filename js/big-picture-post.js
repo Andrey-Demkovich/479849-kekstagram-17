@@ -68,7 +68,7 @@
     socialCommentContainerElement.innerHTML = '';
 
     // Вырезает первых пять комментариев массива и вставляет их в пост
-    window.createFiveElements = function () {
+    window.onCommentsLoaderClick = function () {
       var bigPictureDataFives = bigPictureCommentsClone.splice(
           0,
           MAX_COMMENTS_PAGE
@@ -84,12 +84,12 @@
     };
 
     // Создаем первых 5 комментариев и вставляем в пост
-    window.createFiveElements();
+    window.onCommentsLoaderClick();
 
     // При клике на кнопке 'Загрузить еще' вставит еще 5 комментариев
     window.commentsLoaderElement.addEventListener(
         'click',
-        window.createFiveElements
+        window.onCommentsLoaderClick
     );
   };
 
@@ -105,6 +105,5 @@
     createCommentElements(bigPictureData);
 
     socialCaptionElement.textContent = bigPictureData.description;
-    // socialCommentCountElement.classList.add('visually-hidden');
   };
 })();

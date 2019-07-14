@@ -2,7 +2,7 @@
 // 2.1. Масштаб:
 
 (function () {
-  var MIN_SCALE = 0;
+  var MIN_SCALE = 25;
   var MAX_SCALE = 100;
   var STEP = 25;
   var scaleControlSmaller = window.imgUploadOverlayElement.querySelector(

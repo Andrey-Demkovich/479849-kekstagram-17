@@ -14,12 +14,12 @@
     };
 
     document.addEventListener('mousemove', window.onMouseMove);
-    document.addEventListener('mousemove', window.changeIntensityEffect);
+    document.addEventListener('mousemove', window.onIntensityEffectChange);
 
     document.addEventListener('mouseup', onMouseUp);
   });
 
   // Изменение положения ползунка и интенсивности эффекта по клику на слайдер
   window.effectLevel.addEventListener('click', window.onMouseMove);
-  window.effectLevel.addEventListener('click', window.changeIntensityEffect);
+  window.effectLevel.addEventListener('click', window.onIntensityEffectChange);
 })();

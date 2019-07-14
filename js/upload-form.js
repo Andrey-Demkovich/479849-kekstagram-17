@@ -50,31 +50,31 @@
     );
 
     // Скрывает (удаляет) диалоговое окно непосредственно, удаляет обработчик ESC
-    var dialogElementRemove = function () {
+    var onDialogElementRemove = function () {
       dialogElement.remove();
       document.removeEventListener('keydown', onDialogEscPress);
     };
 
     var onDialogEscPress = function (evt) {
       if (evt.keyCode === window.ESC_KEYCODE) {
-        dialogElementRemove();
+        onDialogElementRemove();
       }
     };
 
     // Проверяет если щелчек не по диалговому окну то закрывает его
-    var dialogRemove = function (evt) {
+    var onDialogRemoveClick = function (evt) {
       if (!evt.target.closest('.' + dialogSelector + '__inner')) {
-        dialogElementRemove();
+        onDialogElementRemove();
       }
     };
 
     // Закрывает нажатием на ESC
     document.addEventListener('keydown', onDialogEscPress);
     // Закрывает по клику на произвольную область экрана
-    dialogElement.addEventListener('click', dialogRemove);
+    dialogElement.addEventListener('click', onDialogRemoveClick);
     // Закрывает по клику на buttons
     dialogButtonElements.forEach(function (item) {
-      item.addEventListener('click', dialogElementRemove);
+      item.addEventListener('click', onDialogElementRemove);
     });
   };
 

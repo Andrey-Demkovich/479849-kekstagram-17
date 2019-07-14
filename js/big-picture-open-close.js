@@ -11,12 +11,12 @@
   // Обработчик закрытия при нажатии Esc
   var onBigPictureEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      closeBigPicture();
+      onBigPictureClose();
     }
   };
 
   // Обработчик закрытия большого фото
-  var closeBigPicture = function () {
+  var onBigPictureClose = function () {
     window.bigPictureElement.classList.add('hidden');
 
     document.body.classList.remove('modal-open');
@@ -24,7 +24,7 @@
     // При закрытии фото удаляем обработчик кнопки 'Загрузить еще'
     window.commentsLoaderElement.removeEventListener(
         'click',
-        window.createFiveElements
+        window.onCommentsLoaderClick
     );
 
     // Удаляем обработчик закрытия при нажатии Esc
@@ -32,7 +32,7 @@
   };
 
   // Обработчик открытия большого фото
-  var openBigPicture = function (evt) {
+  var onBigPictureOpen = function (evt) {
     // Определяем элемент на котором произошло событие
     var target = evt.target;
     // Определяем произошло событие на .picture или на каком-то вложенном элементе
@@ -54,10 +54,10 @@
     window.bigPictureElement.classList.remove('hidden');
 
     // При открытии большого фото, добовляем события его закрытия
-    bigPictureCancelElement.addEventListener('click', closeBigPicture);
+    bigPictureCancelElement.addEventListener('click', onBigPictureClose);
     document.addEventListener('keydown', onBigPictureEscPress);
   };
 
   // Событие открытия большого изображения по клику (использует делегирование)
-  window.picturesContainerElement.addEventListener('click', openBigPicture);
+  window.picturesContainerElement.addEventListener('click', onBigPictureOpen);
 })();
