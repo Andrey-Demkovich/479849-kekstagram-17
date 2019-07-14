@@ -11,7 +11,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === window.HttpResponse.OK) {
         onSuccess();
       } else {
         onError();
@@ -56,7 +56,7 @@
     };
 
     var onDialogEscPress = function (evt) {
-      if (evt.keyCode === 27) {
+      if (evt.keyCode === window.ESC_KEYCODE) {
         dialogElementRemove();
       }
     };

@@ -2,14 +2,12 @@
 // Загрузка изображения и показ(скрытие) формы редактирования
 
 (function () {
-  var ESK_KEYCODE = 27;
-
   var uploadCancelElement = window.imgUploadOverlayElement.querySelector(
       '#upload-cancel'
   );
 
   var onImgUploadEscPress = function (evt) {
-    if (evt.keyCode === ESK_KEYCODE) {
+    if (evt.keyCode === window.ESC_KEYCODE) {
       window.closeImgUpload();
     }
   };

@@ -69,8 +69,8 @@
 
   // Обработчик кнопки "Новые"
   var onFilterNewButtonClick = function () {
-    var NewPosts = shuffle(window.XhrDataImgPosts.slice()).slice(0, NEW_POSTS);
-    onFilterButtonClick(NewPosts);
+    var newPosts = shuffle(window.XhrDataImgPosts.slice()).slice(0, NEW_POSTS);
+    onFilterButtonClick(newPosts);
   };
 
   // Обработчик кнопки "Обсуждаемые"

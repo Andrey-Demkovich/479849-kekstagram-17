@@ -2,6 +2,9 @@
 // Проверяем валидность хэш-тегов
 
 (function () {
+  var MAX_LONG_HASHTAG = 20;
+  var MAX_AMOUNT_HASHTAG = 5;
+
   window.textHashtagsElement.addEventListener('change', function () {
     var invalidMessage = []; // Для хранения сообщений об ошибках
 
@@ -49,7 +52,7 @@
     }
 
     var isLongHashtag = inputArray.some(function (item) {
-      return item.length > 20;
+      return item.length > MAX_LONG_HASHTAG;
     });
     if (isLongHashtag) {
       invalidMessage.push(
@@ -57,7 +60,7 @@
       );
     }
 
-    if (inputArray.length > 5) {
+    if (inputArray.length > MAX_AMOUNT_HASHTAG) {
       invalidMessage.push('Нельзя указать больше пяти хэш-тегов');
     }
 

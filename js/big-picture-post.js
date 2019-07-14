@@ -2,6 +2,8 @@
 // Заполняет данные при просмотре фотографий в полноразмерном режиме
 
 (function () {
+  var MAX_COMMENTS_PAGE = 5;
+
   var bigPictureImgElement = window.bigPictureElement.querySelector(
       '.big-picture__img'
   ).firstElementChild;
@@ -59,7 +61,6 @@
 
   // Делает выборку данных для 5 первых комментариев при открытии окна и при нажатии на кнопку 'Загрузить еще'
   var createCommentElements = function (bigPictureData) {
-    var MAX_COMMENTS_PAGE = 5;
     // Клонируем массив комментариев
     var bigPictureCommentsClone = bigPictureData.comments.slice();
 

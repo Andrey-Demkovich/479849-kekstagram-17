@@ -2,13 +2,25 @@
 // Загружаем данные для картинок-постов с сервера
 
 (function () {
+  var TIMEOUT_REQUEST = 10000; // 10c
+
+  window.HttpResponse = {
+    OK: 200,
+
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    NOT_FOUND: 404,
+
+    SERVER_ERROR: 500
+  };
+
   window.load = function (URL, onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case 200:
+        case window.HttpResponse.OK:
           window.XhrDataImgPosts = xhr.response;
           onSuccess(window.XhrDataImgPosts);
 
@@ -18,17 +30,17 @@
             .classList.remove('img-filters--inactive');
           break;
 
-        case 400:
+        case window.HttpResponse.BAD_REQUEST:
           window.onError('Не верный запрос');
           break;
-        case 401:
+        case window.HttpResponse.UNAUTHORIZED:
           window.onError('Пользователь не авторизован');
           break;
-        case 404:
+        case window.HttpResponse.NOT_FOUND:
           window.onError('Данных не найдено');
           break;
 
-        case 500:
+        case window.HttpResponse.SERVER_ERROR:
           window.onError('Ошибка сервера');
           break;
 
@@ -45,7 +57,7 @@
     xhr.addEventListener('timeout', function () {
       window.onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    xhr.timeout = 10000;
+    xhr.timeout = TIMEOUT_REQUEST;
 
     xhr.open('GET', URL);
     xhr.send();

@@ -2,13 +2,15 @@
 // Открытие/закрытие большой фотографии из загруженной галереи
 
 (function () {
+  window.ESC_KEYCODE = 27;
+
   var bigPictureCancelElement = window.bigPictureElement.querySelector(
       '.big-picture__cancel'
   );
 
   // Обработчик закрытия при нажатии Esc
   var onBigPictureEscPress = function (evt) {
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === ESC_KEYCODE) {
       closeBigPicture();
     }
   };

@@ -2,6 +2,8 @@
 // Сообщение об ошибке при работе с сервером
 
 (function () {
+  var TIMEOUT_ERROR = 3000; // 3c
+
   window.onError = function (message) {
     scrollTo(0, 0);
 
@@ -19,6 +21,6 @@
 
     setTimeout(function () {
       divErrorElement.classList.add('hidden');
-    }, 3000);
+    }, TIMEOUT_ERROR);
   };
 })();
