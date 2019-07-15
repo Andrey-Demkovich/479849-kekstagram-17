@@ -23,9 +23,9 @@
   // Создаем галерею картинок-постов и вставлям ее в .pictures
   window.insertFragment = function (posts) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < posts.length; i++) {
-      fragment.appendChild(createPicterPost(posts[i]));
-    }
+    posts.forEach(function (item) {
+      fragment.appendChild(createPicterPost(item));
+    });
     window.picturesContainerElement.appendChild(fragment);
   };
 
