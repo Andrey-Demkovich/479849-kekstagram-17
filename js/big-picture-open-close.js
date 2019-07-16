@@ -4,7 +4,7 @@
 (function () {
   window.ESC_KEYCODE = 27;
 
-  var bigPictureCancelElement = window.bigPictureElement.querySelector(
+  var bigPictureCancelElement = window.domQery.bigPictureElement.querySelector(
       '.big-picture__cancel'
   );
 
@@ -17,12 +17,12 @@
 
   // Обработчик закрытия большого фото
   var onBigPictureClose = function () {
-    window.bigPictureElement.classList.add('hidden');
+    window.domQery.bigPictureElement.classList.add('hidden');
 
     document.body.classList.remove('modal-open');
 
     // При закрытии фото удаляем обработчик кнопки 'Загрузить еще'
-    window.commentsLoaderElement.removeEventListener(
+    window.domQery.commentsLoaderElement.removeEventListener(
         'click',
         window.onCommentsLoaderClick
     );
@@ -51,7 +51,7 @@
     // Заполняет данные для просмотра фото в полноразмерном режиме
     window.createBigPicture(filterDataElement);
     // Открываем большое фото
-    window.bigPictureElement.classList.remove('hidden');
+    window.domQery.bigPictureElement.classList.remove('hidden');
 
     // При открытии большого фото, добовляем события его закрытия
     bigPictureCancelElement.addEventListener('click', onBigPictureClose);
@@ -59,5 +59,8 @@
   };
 
   // Событие открытия большого изображения по клику (использует делегирование)
-  window.picturesContainerElement.addEventListener('click', onBigPictureOpen);
+  window.domQery.picturesContainerElement.addEventListener(
+      'click',
+      onBigPictureOpen
+  );
 })();

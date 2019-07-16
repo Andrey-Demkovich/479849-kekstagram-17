@@ -4,25 +4,25 @@
 (function () {
   var MAX_COMMENTS_PAGE = 5;
 
-  var bigPictureImgElement = window.bigPictureElement.querySelector(
+  var bigPictureImgElement = window.domQery.bigPictureElement.querySelector(
       '.big-picture__img'
   ).firstElementChild;
-  var likesCountElement = window.bigPictureElement.querySelector(
+  var likesCountElement = window.domQery.bigPictureElement.querySelector(
       '.likes-count'
   );
-  var commentsCountElement = window.bigPictureElement.querySelector(
+  var commentsCountElement = window.domQery.bigPictureElement.querySelector(
       '.comments-count'
   );
-  var socialCommentContainerElement = window.bigPictureElement.querySelector(
+  var socialCommentContainerElement = window.domQery.bigPictureElement.querySelector(
       '.social__comments'
   );
-  var socialCommentElement = window.bigPictureElement.querySelector(
+  var socialCommentElement = window.domQery.bigPictureElement.querySelector(
       '.social__comment'
   );
-  var socialCaptionElement = window.bigPictureElement.querySelector(
+  var socialCaptionElement = window.domQery.bigPictureElement.querySelector(
       '.social__caption'
   );
-  var socialCommentCountElement = window.bigPictureElement.querySelector(
+  var socialCommentCountElement = window.domQery.bigPictureElement.querySelector(
       '.social__comment-count'
   );
 
@@ -76,7 +76,7 @@
 
       // Если массив комментариев пуст скрываем кнопку 'Загрузить еще'
       if (bigPictureCommentsClone.length === 0) {
-        window.commentsLoaderElement.classList.add('visually-hidden');
+        window.domQery.commentsLoaderElement.classList.add('visually-hidden');
       }
 
       // Создает 5 комментариев и вставляет в пост
@@ -87,7 +87,7 @@
     window.onCommentsLoaderClick();
 
     // При клике на кнопке 'Загрузить еще' вставит еще 5 комментариев
-    window.commentsLoaderElement.addEventListener(
+    window.domQery.commentsLoaderElement.addEventListener(
         'click',
         window.onCommentsLoaderClick
     );
@@ -100,7 +100,7 @@
     commentsCountElement.textContent = bigPictureData.comments.length;
 
     // Если кнопка 'Загрузить еще' скрыта, показываем ее
-    window.commentsLoaderElement.classList.remove('visually-hidden');
+    window.domQery.commentsLoaderElement.classList.remove('visually-hidden');
     // Вставляем 5 комментариев
     createCommentElements(bigPictureData);
 

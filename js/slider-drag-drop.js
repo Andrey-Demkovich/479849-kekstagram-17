@@ -3,7 +3,9 @@
 
 (function () {
   // Drag-end-drop
-  window.effectLevelPinElement.addEventListener('mousedown', function (evt) {
+  window.domQery.effectLevelPinElement.addEventListener('mousedown', function (
+      evt
+  ) {
     evt.preventDefault();
 
     var onMouseUp = function (upEvt) {
@@ -20,6 +22,9 @@
   });
 
   // Изменение положения ползунка и интенсивности эффекта по клику на слайдер
-  window.effectLevel.addEventListener('click', window.onMouseMove);
-  window.effectLevel.addEventListener('click', window.onIntensityEffectChange);
+  window.domQery.effectLevel.addEventListener('click', window.onMouseMove);
+  window.domQery.effectLevel.addEventListener(
+      'click',
+      window.onIntensityEffectChange
+  );
 })();

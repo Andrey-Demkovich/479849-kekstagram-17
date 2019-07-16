@@ -5,34 +5,36 @@
   var MIN_SCALE = 25;
   var MAX_SCALE = 100;
   var STEP = 25;
-  var scaleControlSmaller = window.imgUploadOverlayElement.querySelector(
+  var scaleControlSmaller = window.domQery.imgUploadOverlayElement.querySelector(
       '.scale__control--smaller'
   );
-  var scaleControlBigger = window.imgUploadOverlayElement.querySelector(
+  var scaleControlBigger = window.domQery.imgUploadOverlayElement.querySelector(
       '.scale__control--bigger'
   );
 
   var outZoom = function () {
-    var scaleSmaller = parseInt(window.scaleCntrolValue.value, 10) - STEP;
+    var scaleSmaller =
+      parseInt(window.domQery.scaleCntrolValue.value, 10) - STEP;
 
     if (scaleSmaller <= MIN_SCALE) {
       scaleSmaller = MIN_SCALE;
     }
-    window.scaleCntrolValue.value = scaleSmaller + '%';
+    window.domQery.scaleCntrolValue.value = scaleSmaller + '%';
 
-    window.imageUploadPreviewElement.style.transform =
+    window.domQery.imageUploadPreviewElement.style.transform =
       'scale(' + scaleSmaller / 100 + ')';
   };
 
   var inZoom = function () {
-    var scaleBigger = parseInt(window.scaleCntrolValue.value, 10) + STEP;
+    var scaleBigger =
+      parseInt(window.domQery.scaleCntrolValue.value, 10) + STEP;
 
     if (scaleBigger >= MAX_SCALE) {
       scaleBigger = MAX_SCALE;
     }
-    window.scaleCntrolValue.value = scaleBigger + '%';
+    window.domQery.scaleCntrolValue.value = scaleBigger + '%';
 
-    window.imageUploadPreviewElement.style.transform =
+    window.domQery.imageUploadPreviewElement.style.transform =
       'scale(' + scaleBigger / 100 + ')';
   };
 

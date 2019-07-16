@@ -7,36 +7,39 @@
   var INTERVAL_INTENSITY_HEAT = 2;
 
   window.onIntensityEffectChange = function () {
-    window.effectLevelValueElement.value =
+    window.domQery.effectLevelValueElement.value =
       (
-        window.effectLevelPinElement.offsetLeft /
-        window.effectLevelLineElement.clientWidth
+        window.domQery.effectLevelPinElement.offsetLeft /
+        window.domQery.effectLevelLineElement.clientWidth
       ).toFixed(2) * 100;
 
-    switch (window.imageUploadPreviewElement.classList[0]) {
+    switch (window.domQery.imageUploadPreviewElement.classList[0]) {
       case 'effects__preview--chrome':
-        window.imageUploadPreviewElement.style.filter =
-          'grayscale(' + window.effectLevelValueElement.value / 100 + ')';
+        window.domQery.imageUploadPreviewElement.style.filter =
+          'grayscale(' +
+          window.domQery.effectLevelValueElement.value / 100 +
+          ')';
         break;
       case 'effects__preview--sepia':
-        window.imageUploadPreviewElement.style.filter =
-          'sepia(' + window.effectLevelValueElement.value / 100 + ')';
+        window.domQery.imageUploadPreviewElement.style.filter =
+          'sepia(' + window.domQery.effectLevelValueElement.value / 100 + ')';
         break;
       case 'effects__preview--marvin':
-        window.imageUploadPreviewElement.style.filter =
-          'invert(' + window.effectLevelValueElement.value + '%)';
+        window.domQery.imageUploadPreviewElement.style.filter =
+          'invert(' + window.domQery.effectLevelValueElement.value + '%)';
         break;
       case 'effects__preview--phobos':
-        window.imageUploadPreviewElement.style.filter =
+        window.domQery.imageUploadPreviewElement.style.filter =
           'blur(' +
-          (window.effectLevelValueElement.value / 100) * MAX_INTENSITY_PHOBOS +
+          (window.domQery.effectLevelValueElement.value / 100) *
+            MAX_INTENSITY_PHOBOS +
           'px)';
         break;
       case 'effects__preview--heat':
-        window.imageUploadPreviewElement.style.filter =
+        window.domQery.imageUploadPreviewElement.style.filter =
           'brightness(' +
           (MIN_INTENSITY_HEAT +
-            (window.effectLevelValueElement.value / 100) *
+            (window.domQery.effectLevelValueElement.value / 100) *
               INTERVAL_INTENSITY_HEAT) +
           ')';
         break;

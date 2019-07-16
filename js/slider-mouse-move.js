@@ -7,25 +7,26 @@
     moveEvt.preventDefault();
 
     var startCoordsX =
-      window.effectLevelPinElement.getBoundingClientRect().left +
-      window.effectLevelPinElement.offsetWidth / 2;
+      window.domQery.effectLevelPinElement.getBoundingClientRect().left +
+      window.domQery.effectLevelPinElement.offsetWidth / 2;
 
     var shiftX = startCoordsX - moveEvt.clientX;
     startCoordsX = moveEvt.clientX;
 
-    var pinElementLeft = window.effectLevelPinElement.offsetLeft - shiftX;
+    var pinElementLeft =
+      window.domQery.effectLevelPinElement.offsetLeft - shiftX;
 
-    var lineElementLeft = window.effectLevelLineElement.getBoundingClientRect()
+    var lineElementLeft = window.domQery.effectLevelLineElement.getBoundingClientRect()
       .left;
-    var lineElementRight = window.effectLevelLineElement.getBoundingClientRect()
+    var lineElementRight = window.domQery.effectLevelLineElement.getBoundingClientRect()
       .right;
     if (startCoordsX <= lineElementLeft) {
       pinElementLeft = 0;
     } else if (startCoordsX >= lineElementRight) {
-      pinElementLeft = window.effectLevelLineElement.clientWidth;
+      pinElementLeft = window.domQery.effectLevelLineElement.clientWidth;
     }
 
-    window.effectLevelPinElement.style.left = pinElementLeft + 'px';
-    window.effectLevelDepthElement.style.width = pinElementLeft + 'px';
+    window.domQery.effectLevelPinElement.style.left = pinElementLeft + 'px';
+    window.domQery.effectLevelDepthElement.style.width = pinElementLeft + 'px';
   };
 })();

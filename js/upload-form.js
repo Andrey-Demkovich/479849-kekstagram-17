@@ -27,9 +27,9 @@
 
   // Сбрасывает введенные пользователем в форму данные
   var resetImgUpload = function () {
-    window.textHashtagsElement.value = '';
-    window.textDescriptionElement.value = '';
-    window.uploadFileElement.value = '';
+    window.domQery.textHashtagsElement.value = '';
+    window.domQery.textDescriptionElement.value = '';
+    window.domQery.uploadFileElement.value = '';
   };
 
   // Создает диалоговое окно из шаблонов и вставляет в документ (показывает)

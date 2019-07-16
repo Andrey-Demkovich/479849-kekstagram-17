@@ -55,7 +55,7 @@
 
   // Находим и удаляем все старые картинки посты и вставляем новые
   var onFilterButtonClick = function (dataPosts) {
-    var pictureElements = window.picturesContainerElement.querySelectorAll(
+    var pictureElements = window.domQery.picturesContainerElement.querySelectorAll(
         '.picture'
     );
     elementsRemove(pictureElements);

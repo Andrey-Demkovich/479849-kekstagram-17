@@ -26,7 +26,7 @@
     posts.forEach(function (item) {
       fragment.appendChild(createPicterPost(item));
     });
-    window.picturesContainerElement.appendChild(fragment);
+    window.domQery.picturesContainerElement.appendChild(fragment);
   };
 
   window.load(URL, window.insertFragment);

@@ -5,11 +5,11 @@
   var MAX_LONG_HASHTAG = 20;
   var MAX_AMOUNT_HASHTAG = 5;
 
-  window.textHashtagsElement.addEventListener('change', function () {
+  window.domQery.textHashtagsElement.addEventListener('change', function () {
     var invalidMessage = []; // Для хранения сообщений об ошибках
 
     // Получаем содержание input и приводим к одному регистру
-    var inputText = window.textHashtagsElement.value.toLowerCase();
+    var inputText = window.domQery.textHashtagsElement.value.toLowerCase();
     // Если input пустой то выходим из функции и ничего не делаем
     if (!inputText) {
       return;
@@ -65,11 +65,13 @@
     }
 
     // Преобразуем массив сообщений об ошибках в строку и с помощью setCustomValidity задаем сообщение об ошибках
-    window.textHashtagsElement.setCustomValidity(invalidMessage.join('. \n'));
+    window.domQery.textHashtagsElement.setCustomValidity(
+        invalidMessage.join('. \n')
+    );
 
     // Неверно заполненные поля подсвечиваются красной рамкой
-    if (window.textHashtagsElement.validationMessage) {
-      window.textHashtagsElement.style.outlineColor = 'red';
+    if (window.domQery.textHashtagsElement.validationMessage) {
+      window.domQery.textHashtagsElement.style.outlineColor = 'red';
     }
   });
 })();
