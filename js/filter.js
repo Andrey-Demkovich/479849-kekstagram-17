@@ -59,23 +59,29 @@
         '.picture'
     );
     elementsRemove(pictureElements);
-    window.insertFragment(dataPosts);
+    window.gallery.insertFragment(dataPosts);
   };
 
   // Обработчик кнопки "Популярные"
   var onFilterPopularButtonClick = function () {
-    onFilterButtonClick(window.XhrDataImgPosts);
+    onFilterButtonClick(window.loadData.XhrDataImgPosts);
   };
 
   // Обработчик кнопки "Новые"
   var onFilterNewButtonClick = function () {
-    var newPosts = shuffle(window.XhrDataImgPosts.slice()).slice(0, NEW_POSTS);
+    var newPosts = shuffle(window.loadData.XhrDataImgPosts.slice()).slice(
+        0,
+        NEW_POSTS
+    );
     onFilterButtonClick(newPosts);
   };
 
   // Обработчик кнопки "Обсуждаемые"
   var onFilterDiscussedButtonClick = function () {
-    var discussedPosts = window.XhrDataImgPosts.slice().sort(function (a, b) {
+    var discussedPosts = window.loadData.XhrDataImgPosts.slice().sort(function (
+        a,
+        b
+    ) {
       return b.comments.length - a.comments.length;
     });
     onFilterButtonClick(discussedPosts);

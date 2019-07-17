@@ -21,13 +21,15 @@
   };
 
   // Создаем галерею картинок-постов и вставлям ее в .pictures
-  window.insertFragment = function (posts) {
-    var fragment = document.createDocumentFragment();
-    posts.forEach(function (item) {
-      fragment.appendChild(createPicterPost(item));
-    });
-    window.domQery.picturesContainerElement.appendChild(fragment);
+  window.gallery = {
+    insertFragment: function (posts) {
+      var fragment = document.createDocumentFragment();
+      posts.forEach(function (item) {
+        fragment.appendChild(createPicterPost(item));
+      });
+      window.domQery.picturesContainerElement.appendChild(fragment);
+    }
   };
 
-  window.load(URL, window.insertFragment);
+  window.loadData.load(URL, window.gallery.insertFragment);
 })();

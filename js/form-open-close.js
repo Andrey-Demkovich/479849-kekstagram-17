@@ -2,17 +2,21 @@
 // Загрузка изображения и показ(скрытие) формы редактирования
 
 (function () {
+  window.formOpenClose = {
+    ESC_KEYCODE: 27
+  };
+
   var uploadCancelElement = window.domQery.imgUploadOverlayElement.querySelector(
       '#upload-cancel'
   );
 
   var onImgUploadEscPress = function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
-      window.closeImgUpload();
+    if (evt.keyCode === window.formOpenClose.ESC_KEYCODE) {
+      window.formOpenClose.closeImgUpload();
     }
   };
 
-  window.closeImgUpload = function () {
+  window.formOpenClose.closeImgUpload = function () {
     window.domQery.imgUploadOverlayElement.classList.add('hidden');
 
     document.removeEventListener('keydown', onImgUploadEscPress);
@@ -51,7 +55,7 @@
     forbidCloseFormElementFocus(window.domQery.textHashtagsElement);
 
     uploadCancelElement.addEventListener('click', function () {
-      window.closeImgUpload();
+      window.formOpenClose.closeImgUpload();
     });
   };
 

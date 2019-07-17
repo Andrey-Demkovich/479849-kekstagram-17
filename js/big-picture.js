@@ -59,6 +59,22 @@
       countAddComments + ' из ';
   };
 
+  window.bigPicture = {
+    // Заполняет данные при просмотре фотографий в полноразмерном режиме
+    createBigPicture: function (bigPictureData) {
+      bigPictureImgElement.src = bigPictureData.url;
+      likesCountElement.textContent = bigPictureData.likes;
+      commentsCountElement.textContent = bigPictureData.comments.length;
+
+      // Если кнопка 'Загрузить еще' скрыта, показываем ее
+      window.domQery.commentsLoaderElement.classList.remove('visually-hidden');
+      // Вставляем 5 комментариев
+      createCommentElements(bigPictureData);
+
+      socialCaptionElement.textContent = bigPictureData.description;
+    }
+  };
+
   // Делает выборку данных для 5 первых комментариев при открытии окна и при нажатии на кнопку 'Загрузить еще'
   var createCommentElements = function (bigPictureData) {
     // Клонируем массив комментариев
@@ -68,7 +84,7 @@
     socialCommentContainerElement.innerHTML = '';
 
     // Вырезает первых пять комментариев массива и вставляет их в пост
-    window.onCommentsLoaderClick = function () {
+    window.bigPicture.onCommentsLoaderClick = function () {
       var bigPictureDataFives = bigPictureCommentsClone.splice(
           0,
           MAX_COMMENTS_PAGE
@@ -84,26 +100,12 @@
     };
 
     // Создаем первых 5 комментариев и вставляем в пост
-    window.onCommentsLoaderClick();
+    window.bigPicture.onCommentsLoaderClick();
 
     // При клике на кнопке 'Загрузить еще' вставит еще 5 комментариев
     window.domQery.commentsLoaderElement.addEventListener(
         'click',
-        window.onCommentsLoaderClick
+        window.bigPicture.onCommentsLoaderClick
     );
-  };
-
-  // Заполняет данные при просмотре фотографий в полноразмерном режиме
-  window.createBigPicture = function (bigPictureData) {
-    bigPictureImgElement.src = bigPictureData.url;
-    likesCountElement.textContent = bigPictureData.likes;
-    commentsCountElement.textContent = bigPictureData.comments.length;
-
-    // Если кнопка 'Загрузить еще' скрыта, показываем ее
-    window.domQery.commentsLoaderElement.classList.remove('visually-hidden');
-    // Вставляем 5 комментариев
-    createCommentElements(bigPictureData);
-
-    socialCaptionElement.textContent = bigPictureData.description;
   };
 })();

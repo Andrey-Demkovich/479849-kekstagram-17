@@ -4,25 +4,27 @@
 (function () {
   var TIMEOUT_REQUEST = 10000; // 10c
 
-  window.HttpResponse = {
-    OK: 200,
+  window.loadData = {
+    HttpResponse: {
+      OK: 200,
 
-    BAD_REQUEST: 400,
-    UNAUTHORIZED: 401,
-    NOT_FOUND: 404,
+      BAD_REQUEST: 400,
+      UNAUTHORIZED: 401,
+      NOT_FOUND: 404,
 
-    SERVER_ERROR: 500
+      SERVER_ERROR: 500
+    }
   };
 
-  window.load = function (URL, onSuccess) {
+  window.loadData.load = function (URL, onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case window.HttpResponse.OK:
-          window.XhrDataImgPosts = xhr.response;
-          onSuccess(window.XhrDataImgPosts);
+        case window.loadData.HttpResponse.OK:
+          window.loadData.XhrDataImgPosts = xhr.response;
+          onSuccess(window.loadData.XhrDataImgPosts);
 
           // Показываем меню филтрации загруженных изображений
           document
@@ -30,32 +32,34 @@
             .classList.remove('img-filters--inactive');
           break;
 
-        case window.HttpResponse.BAD_REQUEST:
-          window.onError('Не верный запрос');
+        case window.loadData.HttpResponse.BAD_REQUEST:
+          window.errorData.onError('Не верный запрос');
           break;
-        case window.HttpResponse.UNAUTHORIZED:
-          window.onError('Пользователь не авторизован');
+        case window.loadData.HttpResponse.UNAUTHORIZED:
+          window.errorData.onError('Пользователь не авторизован');
           break;
-        case window.HttpResponse.NOT_FOUND:
-          window.onError('Данных не найдено');
+        case window.loadData.HttpResponse.NOT_FOUND:
+          window.errorData.onError('Данных не найдено');
           break;
 
-        case window.HttpResponse.SERVER_ERROR:
-          window.onError('Ошибка сервера');
+        case window.loadData.HttpResponse.SERVER_ERROR:
+          window.errorData.onError('Ошибка сервера');
           break;
 
         default:
-          window.onError(
+          window.errorData.onError(
               'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText
           );
       }
     });
 
     xhr.addEventListener('error', function () {
-      window.onError('Произошла ошибка соединения');
+      window.errorData.onError('Произошла ошибка соединения');
     });
     xhr.addEventListener('timeout', function () {
-      window.onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      window.errorData.onError(
+          'Запрос не успел выполниться за ' + xhr.timeout + 'мс'
+      );
     });
     xhr.timeout = TIMEOUT_REQUEST;
 

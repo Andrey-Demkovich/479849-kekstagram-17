@@ -2,15 +2,13 @@
 // Открытие/закрытие большой фотографии из загруженной галереи
 
 (function () {
-  window.ESC_KEYCODE = 27;
-
   var bigPictureCancelElement = window.domQery.bigPictureElement.querySelector(
       '.big-picture__cancel'
   );
 
   // Обработчик закрытия при нажатии Esc
   var onBigPictureEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === window.formOpenClose.ESC_KEYCODE) {
       onBigPictureClose();
     }
   };
@@ -24,7 +22,7 @@
     // При закрытии фото удаляем обработчик кнопки 'Загрузить еще'
     window.domQery.commentsLoaderElement.removeEventListener(
         'click',
-        window.onCommentsLoaderClick
+        window.bigPicture.onCommentsLoaderClick
     );
 
     // Удаляем обработчик закрытия при нажатии Esc
@@ -45,11 +43,13 @@
     // Из ТЗ - Элементу body задаётся класс modal-open.
     document.body.classList.add('modal-open');
     // Фильтруем загруженные данные и определяем по src кликнутой картинки какой объект с данными нужен для отрисовки большого фото
-    var filterDataElement = window.XhrDataImgPosts.filter(function (object) {
+    var filterDataElement = window.loadData.XhrDataImgPosts.filter(function (
+        object
+    ) {
       return object.url === picture.querySelector('img').getAttribute('src');
     })[0];
     // Заполняет данные для просмотра фото в полноразмерном режиме
-    window.createBigPicture(filterDataElement);
+    window.bigPicture.createBigPicture(filterDataElement);
     // Открываем большое фото
     window.domQery.bigPictureElement.classList.remove('hidden');
 

@@ -6,12 +6,12 @@
   var mainElement = document.querySelector('main');
 
   // Отправляет форму и проверяет ответ сервера
-  window.upload = function (data, onSuccess) {
+  var upload = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === window.HttpResponse.OK) {
+      if (xhr.status === window.loadData.HttpResponse.OK) {
         onSuccess();
       } else {
         onError();
@@ -56,7 +56,7 @@
     };
 
     var onDialogEscPress = function (evt) {
-      if (evt.keyCode === window.ESC_KEYCODE) {
+      if (evt.keyCode === window.formOpenClose.ESC_KEYCODE) {
         onDialogElementRemove();
       }
     };
@@ -80,7 +80,7 @@
 
   // Действия при успешной отправке на сервер
   var onSucces = function () {
-    window.closeImgUpload();
+    window.formOpenClose.closeImgUpload();
     resetImgUpload();
     openDialog('success');
     closeDialog('success');
@@ -88,7 +88,7 @@
 
   // Действия при ошибке при отправке на сервер
   var onError = function () {
-    window.closeImgUpload();
+    window.formOpenClose.closeImgUpload();
     resetImgUpload();
     openDialog('error');
     closeDialog('error');
@@ -97,6 +97,6 @@
   // Отправка формы нажатием на кнопку
   imgUploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload(new FormData(imgUploadForm), onSucces);
+    upload(new FormData(imgUploadForm), onSucces);
   });
 })();
