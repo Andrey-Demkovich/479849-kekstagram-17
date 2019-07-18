@@ -2,26 +2,28 @@
 // Загрузка изображения и показ(скрытие) формы редактирования
 
 (function () {
-  var ESK_KEYCODE = 27;
+  window.formOpenClose = {
+    ESC_KEYCODE: 27
+  };
 
-  var uploadCancelElement = window.imgUploadOverlayElement.querySelector(
+  var uploadCancelElement = window.domQery.imgUploadOverlayElement.querySelector(
       '#upload-cancel'
   );
 
   var onImgUploadEscPress = function (evt) {
-    if (evt.keyCode === ESK_KEYCODE) {
-      window.closeImgUpload();
+    if (evt.keyCode === window.formOpenClose.ESC_KEYCODE) {
+      window.formOpenClose.closeImgUpload();
     }
   };
 
-  window.closeImgUpload = function () {
-    window.imgUploadOverlayElement.classList.add('hidden');
+  window.formOpenClose.closeImgUpload = function () {
+    window.domQery.imgUploadOverlayElement.classList.add('hidden');
 
     document.removeEventListener('keydown', onImgUploadEscPress);
 
-    window.imageUploadPreviewElement.className = '';
-    window.imageUploadPreviewElement.style.filter = '';
-    window.imageUploadPreviewElement.style.transform = 'scale(1)';
+    window.domQery.imageUploadPreviewElement.className = '';
+    window.domQery.imageUploadPreviewElement.style.filter = '';
+    window.domQery.imageUploadPreviewElement.style.transform = 'scale(1)';
   };
 
   // Если фокус находится на элементе, нажатие на Esc не должно приводить к закрытию формы
@@ -35,29 +37,29 @@
   };
 
   var openImgUpload = function () {
-    window.imgUploadOverlayElement.classList.remove('hidden');
+    window.domQery.imgUploadOverlayElement.classList.remove('hidden');
 
-    window.effectsRadioElements[0].checked = true;
-    window.scaleCntrolValue.value = '100%';
+    window.domQery.effectsRadioElements[0].checked = true;
+    window.domQery.scaleCntrolValue.value = '100%';
 
     // Скрываем слайдер эффектов и устанавливаем на 100%
-    window.effectLevel.classList.add('hidden');
-    window.effectLevelValueElement.value = 100;
-    window.effectLevelPinElement.style.left = '100%';
-    window.effectLevelDepthElement.style.width = '100%';
+    window.domQery.effectLevel.classList.add('hidden');
+    window.domQery.effectLevelValueElement.value = 100;
+    window.domQery.effectLevelPinElement.style.left = '100%';
+    window.domQery.effectLevelDepthElement.style.width = '100%';
 
     document.addEventListener('keydown', onImgUploadEscPress);
 
     // Если фокус находится в поле ввода комментария или хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
-    forbidCloseFormElementFocus(window.textDescriptionElement);
-    forbidCloseFormElementFocus(window.textHashtagsElement);
+    forbidCloseFormElementFocus(window.domQery.textDescriptionElement);
+    forbidCloseFormElementFocus(window.domQery.textHashtagsElement);
 
     uploadCancelElement.addEventListener('click', function () {
-      window.closeImgUpload();
+      window.formOpenClose.closeImgUpload();
     });
   };
 
-  window.uploadFileElement.addEventListener('change', function () {
+  window.domQery.uploadFileElement.addEventListener('change', function () {
     openImgUpload();
   });
 })();

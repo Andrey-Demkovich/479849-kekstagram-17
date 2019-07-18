@@ -2,27 +2,27 @@
 // Открытие/закрытие большой фотографии из загруженной галереи
 
 (function () {
-  var bigPictureCancelElement = window.bigPictureElement.querySelector(
+  var bigPictureCancelElement = window.domQery.bigPictureElement.querySelector(
       '.big-picture__cancel'
   );
 
   // Обработчик закрытия при нажатии Esc
   var onBigPictureEscPress = function (evt) {
-    if (evt.keyCode === 27) {
-      closeBigPicture();
+    if (evt.keyCode === window.formOpenClose.ESC_KEYCODE) {
+      onBigPictureClose();
     }
   };
 
   // Обработчик закрытия большого фото
-  var closeBigPicture = function () {
-    window.bigPictureElement.classList.add('hidden');
+  var onBigPictureClose = function () {
+    window.domQery.bigPictureElement.classList.add('hidden');
 
     document.body.classList.remove('modal-open');
 
     // При закрытии фото удаляем обработчик кнопки 'Загрузить еще'
-    window.commentsLoaderElement.removeEventListener(
+    window.domQery.commentsLoaderElement.removeEventListener(
         'click',
-        window.createFiveElements
+        window.bigPicture.onCommentsLoaderClick
     );
 
     // Удаляем обработчик закрытия при нажатии Esc
@@ -30,7 +30,7 @@
   };
 
   // Обработчик открытия большого фото
-  var openBigPicture = function (evt) {
+  var onBigPictureOpen = function (evt) {
     // Определяем элемент на котором произошло событие
     var target = evt.target;
     // Определяем произошло событие на .picture или на каком-то вложенном элементе
@@ -43,19 +43,24 @@
     // Из ТЗ - Элементу body задаётся класс modal-open.
     document.body.classList.add('modal-open');
     // Фильтруем загруженные данные и определяем по src кликнутой картинки какой объект с данными нужен для отрисовки большого фото
-    var filterDataElement = window.XhrDataImgPosts.filter(function (object) {
+    var filterDataElement = window.loadData.XhrDataImgPosts.filter(function (
+        object
+    ) {
       return object.url === picture.querySelector('img').getAttribute('src');
     })[0];
     // Заполняет данные для просмотра фото в полноразмерном режиме
-    window.createBigPicture(filterDataElement);
+    window.bigPicture.createBigPicture(filterDataElement);
     // Открываем большое фото
-    window.bigPictureElement.classList.remove('hidden');
+    window.domQery.bigPictureElement.classList.remove('hidden');
 
     // При открытии большого фото, добовляем события его закрытия
-    bigPictureCancelElement.addEventListener('click', closeBigPicture);
+    bigPictureCancelElement.addEventListener('click', onBigPictureClose);
     document.addEventListener('keydown', onBigPictureEscPress);
   };
 
   // Событие открытия большого изображения по клику (использует делегирование)
-  window.picturesContainerElement.addEventListener('click', openBigPicture);
+  window.domQery.picturesContainerElement.addEventListener(
+      'click',
+      onBigPictureOpen
+  );
 })();

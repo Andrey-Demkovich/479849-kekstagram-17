@@ -2,23 +2,27 @@
 // Сообщение об ошибке при работе с сервером
 
 (function () {
-  window.onError = function (message) {
-    scrollTo(0, 0);
+  var TIMEOUT_ERROR = 3000; // 3c
 
-    var divErrorElement = document.createElement('div');
-    divErrorElement.style =
-      'margin: 0 auto; padding: 15px 0; font-size: 30px; text-align: center; background-color: #ff4e4e';
-    divErrorElement.style.position = 'absolute';
-    divErrorElement.style.zIndex = '100';
-    divErrorElement.style.left = 0;
-    divErrorElement.style.right = 0;
+  window.errorData = {
+    onError: function (message) {
+      scrollTo(0, 0);
 
-    divErrorElement.textContent = message;
+      var divErrorElement = document.createElement('div');
+      divErrorElement.style =
+        'margin: 0 auto; padding: 15px 0; font-size: 30px; text-align: center; background-color: #ff4e4e';
+      divErrorElement.style.position = 'absolute';
+      divErrorElement.style.zIndex = '100';
+      divErrorElement.style.left = 0;
+      divErrorElement.style.right = 0;
 
-    document.body.insertAdjacentElement('afterbegin', divErrorElement);
+      divErrorElement.textContent = message;
 
-    setTimeout(function () {
-      divErrorElement.classList.add('hidden');
-    }, 3000);
+      document.body.insertAdjacentElement('afterbegin', divErrorElement);
+
+      setTimeout(function () {
+        divErrorElement.classList.add('hidden');
+      }, TIMEOUT_ERROR);
+    }
   };
 })();

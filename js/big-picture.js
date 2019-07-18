@@ -2,25 +2,27 @@
 // Заполняет данные при просмотре фотографий в полноразмерном режиме
 
 (function () {
-  var bigPictureImgElement = window.bigPictureElement.querySelector(
+  var MAX_COMMENTS_PAGE = 5;
+
+  var bigPictureImgElement = window.domQery.bigPictureElement.querySelector(
       '.big-picture__img'
   ).firstElementChild;
-  var likesCountElement = window.bigPictureElement.querySelector(
+  var likesCountElement = window.domQery.bigPictureElement.querySelector(
       '.likes-count'
   );
-  var commentsCountElement = window.bigPictureElement.querySelector(
+  var commentsCountElement = window.domQery.bigPictureElement.querySelector(
       '.comments-count'
   );
-  var socialCommentContainerElement = window.bigPictureElement.querySelector(
+  var socialCommentContainerElement = window.domQery.bigPictureElement.querySelector(
       '.social__comments'
   );
-  var socialCommentElement = window.bigPictureElement.querySelector(
+  var socialCommentElement = window.domQery.bigPictureElement.querySelector(
       '.social__comment'
   );
-  var socialCaptionElement = window.bigPictureElement.querySelector(
+  var socialCaptionElement = window.domQery.bigPictureElement.querySelector(
       '.social__caption'
   );
-  var socialCommentCountElement = window.bigPictureElement.querySelector(
+  var socialCommentCountElement = window.domQery.bigPictureElement.querySelector(
       '.social__comment-count'
   );
 
@@ -57,9 +59,24 @@
       countAddComments + ' из ';
   };
 
+  window.bigPicture = {
+    // Заполняет данные при просмотре фотографий в полноразмерном режиме
+    createBigPicture: function (bigPictureData) {
+      bigPictureImgElement.src = bigPictureData.url;
+      likesCountElement.textContent = bigPictureData.likes;
+      commentsCountElement.textContent = bigPictureData.comments.length;
+
+      // Если кнопка 'Загрузить еще' скрыта, показываем ее
+      window.domQery.commentsLoaderElement.classList.remove('visually-hidden');
+      // Вставляем 5 комментариев
+      createCommentElements(bigPictureData);
+
+      socialCaptionElement.textContent = bigPictureData.description;
+    }
+  };
+
   // Делает выборку данных для 5 первых комментариев при открытии окна и при нажатии на кнопку 'Загрузить еще'
   var createCommentElements = function (bigPictureData) {
-    var MAX_COMMENTS_PAGE = 5;
     // Клонируем массив комментариев
     var bigPictureCommentsClone = bigPictureData.comments.slice();
 
@@ -67,7 +84,7 @@
     socialCommentContainerElement.innerHTML = '';
 
     // Вырезает первых пять комментариев массива и вставляет их в пост
-    window.createFiveElements = function () {
+    window.bigPicture.onCommentsLoaderClick = function () {
       var bigPictureDataFives = bigPictureCommentsClone.splice(
           0,
           MAX_COMMENTS_PAGE
@@ -75,7 +92,7 @@
 
       // Если массив комментариев пуст скрываем кнопку 'Загрузить еще'
       if (bigPictureCommentsClone.length === 0) {
-        window.commentsLoaderElement.classList.add('visually-hidden');
+        window.domQery.commentsLoaderElement.classList.add('visually-hidden');
       }
 
       // Создает 5 комментариев и вставляет в пост
@@ -83,27 +100,12 @@
     };
 
     // Создаем первых 5 комментариев и вставляем в пост
-    window.createFiveElements();
+    window.bigPicture.onCommentsLoaderClick();
 
     // При клике на кнопке 'Загрузить еще' вставит еще 5 комментариев
-    window.commentsLoaderElement.addEventListener(
+    window.domQery.commentsLoaderElement.addEventListener(
         'click',
-        window.createFiveElements
+        window.bigPicture.onCommentsLoaderClick
     );
-  };
-
-  // Заполняет данные при просмотре фотографий в полноразмерном режиме
-  window.createBigPicture = function (bigPictureData) {
-    bigPictureImgElement.src = bigPictureData.url;
-    likesCountElement.textContent = bigPictureData.likes;
-    commentsCountElement.textContent = bigPictureData.comments.length;
-
-    // Если кнопка 'Загрузить еще' скрыта, показываем ее
-    window.commentsLoaderElement.classList.remove('visually-hidden');
-    // Вставляем 5 комментариев
-    createCommentElements(bigPictureData);
-
-    socialCaptionElement.textContent = bigPictureData.description;
-    // socialCommentCountElement.classList.add('visually-hidden');
   };
 })();

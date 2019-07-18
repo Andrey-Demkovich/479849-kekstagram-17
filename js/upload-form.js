@@ -6,12 +6,12 @@
   var mainElement = document.querySelector('main');
 
   // Отправляет форму и проверяет ответ сервера
-  window.upload = function (data, onSuccess) {
+  var upload = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === window.loadData.HttpResponse.OK) {
         onSuccess();
       } else {
         onError();
@@ -27,9 +27,9 @@
 
   // Сбрасывает введенные пользователем в форму данные
   var resetImgUpload = function () {
-    window.textHashtagsElement.value = '';
-    window.textDescriptionElement.value = '';
-    window.uploadFileElement.value = '';
+    window.domQery.textHashtagsElement.value = '';
+    window.domQery.textDescriptionElement.value = '';
+    window.domQery.uploadFileElement.value = '';
   };
 
   // Создает диалоговое окно из шаблонов и вставляет в документ (показывает)
@@ -50,37 +50,37 @@
     );
 
     // Скрывает (удаляет) диалоговое окно непосредственно, удаляет обработчик ESC
-    var dialogElementRemove = function () {
+    var onDialogElementRemove = function () {
       dialogElement.remove();
       document.removeEventListener('keydown', onDialogEscPress);
     };
 
     var onDialogEscPress = function (evt) {
-      if (evt.keyCode === 27) {
-        dialogElementRemove();
+      if (evt.keyCode === window.formOpenClose.ESC_KEYCODE) {
+        onDialogElementRemove();
       }
     };
 
     // Проверяет если щелчек не по диалговому окну то закрывает его
-    var dialogRemove = function (evt) {
+    var onDialogRemoveClick = function (evt) {
       if (!evt.target.closest('.' + dialogSelector + '__inner')) {
-        dialogElementRemove();
+        onDialogElementRemove();
       }
     };
 
     // Закрывает нажатием на ESC
     document.addEventListener('keydown', onDialogEscPress);
     // Закрывает по клику на произвольную область экрана
-    dialogElement.addEventListener('click', dialogRemove);
+    dialogElement.addEventListener('click', onDialogRemoveClick);
     // Закрывает по клику на buttons
     dialogButtonElements.forEach(function (item) {
-      item.addEventListener('click', dialogElementRemove);
+      item.addEventListener('click', onDialogElementRemove);
     });
   };
 
   // Действия при успешной отправке на сервер
   var onSucces = function () {
-    window.closeImgUpload();
+    window.formOpenClose.closeImgUpload();
     resetImgUpload();
     openDialog('success');
     closeDialog('success');
@@ -88,7 +88,7 @@
 
   // Действия при ошибке при отправке на сервер
   var onError = function () {
-    window.closeImgUpload();
+    window.formOpenClose.closeImgUpload();
     resetImgUpload();
     openDialog('error');
     closeDialog('error');
@@ -97,6 +97,6 @@
   // Отправка формы нажатием на кнопку
   imgUploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload(new FormData(imgUploadForm), onSucces);
+    upload(new FormData(imgUploadForm), onSucces);
   });
 })();

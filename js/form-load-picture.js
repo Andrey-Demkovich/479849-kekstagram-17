@@ -4,8 +4,8 @@
 (function () {
   var PICTURE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-  window.uploadFileElement.addEventListener('change', function () {
-    var file = window.uploadFileElement.files[0];
+  window.domQery.uploadFileElement.addEventListener('change', function () {
+    var file = window.domQery.uploadFileElement.files[0];
     var fileName = file.name.toLowerCase();
 
     var matches = PICTURE_TYPES.some(function (item) {
@@ -16,7 +16,7 @@
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
-        window.imageUploadPreviewElement.src = reader.result;
+        window.domQery.imageUploadPreviewElement.src = reader.result;
       });
     }
 
